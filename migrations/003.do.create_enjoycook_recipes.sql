@@ -4,7 +4,7 @@ CREATE TABLE enjoycook_recipes (
     content TEXT NOT NULL,
     date_created TIMESTAMP DEFAULT now() NOT NULL,
     category_id INTEGER
-        REFERENCES enjoycook_categories(id) ON DELETE CASCADE NOT NULL,
+        REFERENCES enjoycook_categories(id) ON DELETE SET NULL,
     author_id INTEGER
         REFERENCES enjoycook_users(id) ON DELETE CASCADE NOT NULL
 );
