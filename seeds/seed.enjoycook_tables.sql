@@ -14,8 +14,9 @@ VALUES
 
 INSERT INTO enjoycook_users (user_name, full_name, nickname, password)
 VALUES
-  ('bruce', 'Bruce Wayne', null, 'Batman!'),
-  ('stark', 'Tony Stark', 'tony', 'Ironman!');
+  ('dunder', 'Dunder Mifflin', null, '$2a$12$lHK6LVpc15/ZROZcKU00QeiD.RyYq5dVlV/9m4kKYbGibkRc5l4Ne'),
+  ('b.deboop', 'Bodeep Deboop', 'Bo', '$2a$12$VQ5HgWm34QQK2rJyLc0lmu59cy2jcZiV6U1.bE8rBBnC9VxDf/YQO'),
+  ('c.bloggs', 'Charlie Bloggs', 'Charlie', '$2a$12$2fv9OPgM07xGnhDbyL6xsuAeQjAYpZx/3V2dnu0XNIR27gTeiK2gK');
 
 INSERT INTO enjoycook_recipes (name, content, author_id, category_id)
 VALUES

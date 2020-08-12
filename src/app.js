@@ -6,6 +6,8 @@ const recipesRouter = require('./recipes/recipes-router')
 const commentsRouter = require('./comments/comments-router')
 const categoriesRouter = require('./categories/categories-router')
 const searchRouter = require('./search/search-router')
+const authRouter = require('./auth/auth-router')
+const usersRouter = require('./users/users-router')
 const { NODE_ENV } = require('./config')
 
 const app = express()
@@ -25,6 +27,8 @@ app.use('/api/recipes', recipesRouter)
 app.use('/api/comments', commentsRouter)
 app.use('/api/categories', categoriesRouter)
 app.use('/api/search', searchRouter)
+app.use('/api/auth', authRouter)
+app.use('/api/users', usersRouter)
 
 app.use(function errorHandler(error, req, res, next) {
     let response
