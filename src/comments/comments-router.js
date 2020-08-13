@@ -31,5 +31,34 @@ commentsRouter
       })
       .catch(next)
     })
+commentsRouter
+  .route('/:comment_id')
+  .all(checkCommentExists)
+  .delete(requireAuth, jsonBodyParser, (req, res, next) => {
+    CommentsService.deleteComment(
+      req.app.get('db'),
+      req.params.comment_id
+    )
+      .then(numRowsAffected => {
+        res.status(204).end()
+      })
+      .catch(next)
+    })
+async function checkCommentExists(req, res, next) {
+  try {
+    const comment = await CommentsService.getById(
+        req.app.get('db'),
+        req.params.comment_id
+    )
+    if (!comment)
+      return res.status(404).json({
+        error: `Comment doesn't exist`
+      })
 
+    res.comment = comment
+    next()
+  } catch (error) {
+    next(error)
+  }
+}
 module.exports = commentsRouter

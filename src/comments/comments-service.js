@@ -44,7 +44,11 @@ const CommentsService = {
         CommentsService.getById(db, comment.id)
       )
   },
-
+  deleteComment(db, id) {
+    return db('enjoycook_comments')
+      .where({id})
+      .delete()
+  },
   serializeComment(comment) {
     const { user } = comment
     return {

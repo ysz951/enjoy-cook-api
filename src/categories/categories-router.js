@@ -28,10 +28,6 @@ categoriesRouter.route('/:category_id/')
 /* async/await syntax for promises */
 async function checkCategorieExists(req, res, next) {
   try {
-    // const recipe = await CategoriesService.getById(
-    //   req.app.get('db'),
-    //   req.params.categorie_id
-    // )
     const categorie = await CategoriesService.getById(
         req.app.get('db'),
         req.params.category_id

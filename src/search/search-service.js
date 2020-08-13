@@ -1,5 +1,4 @@
 const xss = require('xss')
-const knex = require('knex')
 const SearchService = {
     getRecipesForSearch(db, name) {
       return db
@@ -44,7 +43,7 @@ const SearchService = {
             'rec.category_id',
             'cate.id'
         )
-        .where(knex.raw(`rec.name ilike ?`, [`%${name}%`]))
+        .where(db.raw(`rec.name ilike ?`, [`%${name}%`]))
         .groupBy('rec.id', 'usr.id','cate.id')
     },
     serializeRecipe(recipe) {
