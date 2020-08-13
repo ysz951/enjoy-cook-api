@@ -43,7 +43,28 @@ commentsRouter
         res.status(204).end()
       })
       .catch(next)
-    })
+  })
+  .patch(requireAuth, jsonBodyParser, (req, res, next) => {
+    const { recipe_id, content } = req.body
+    const CommentToUpdate = { recipe_id, content }
+
+    for (const [key, value] of Object.entries(CommentToUpdate))
+      if (value == null)
+        return res.status(400).json({
+          error: `Missing '${key}' in request body`
+        })
+    CommentToUpdate.user_id = req.user.id
+    // CommentToUpdate.user_id = 1
+    CommentsService.updateComment(
+      req.app.get('db'),
+      req.params.comment_id,
+      CommentToUpdate
+    )
+      .then(numRowsAffected => {
+        res.status(204).end()
+      })
+      .catch(next)
+  })
 async function checkCommentExists(req, res, next) {
   try {
     const comment = await CommentsService.getById(
@@ -55,7 +76,7 @@ async function checkCommentExists(req, res, next) {
         error: `Comment doesn't exist`
       })
 
-    res.comment = comment
+    // res.comment = comment
     next()
   } catch (error) {
     next(error)

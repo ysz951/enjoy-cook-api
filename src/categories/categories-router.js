@@ -37,7 +37,7 @@ async function checkCategorieExists(req, res, next) {
         error: `Categorie doesn't exist`
       })
 
-    res.categorie = categorie
+    // res.categorie = categorie
     next()
   } catch (error) {
     next(error)
