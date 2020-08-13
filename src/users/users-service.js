@@ -4,6 +4,13 @@ const xss = require('xss')
 const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/
 
 const UsersService = {
+  getById(db, id) {
+    return db.from('enjoycook_users').select('*').where('id', id).first()
+  },
+  getRecipesForCollector(db, id) {
+    return db.from('enjoycook_recipes_collectors').select('rec_id').where('collector_id', id)
+  },
+
   hasUserWithUserName(db, user_name) {
     return db('enjoycook_users')
       .where({ user_name })

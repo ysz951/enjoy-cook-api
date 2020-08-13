@@ -19,7 +19,8 @@ recipesRouter
     res.json(RecipesService.serializeRecipe(res.recipe))
   })
 
-recipesRouter.route('/:recipe_id/comments/')
+recipesRouter
+  .route('/:recipe_id/comments/')
   .all(checkRecipeExists)
   .get((req, res, next) => {
     RecipesService.getCommentsForRecipe(
