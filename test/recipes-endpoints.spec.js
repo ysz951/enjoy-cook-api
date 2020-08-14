@@ -60,31 +60,32 @@ describe('Recipes Endpoints', function() {
       })
     })
 
-    // context(`Given an XSS attack recipe`, () => {
-    //   const testUser = helpers.makeUsersArray()[1]
-    //   const {
-    //     maliciousRecipe,
-    //     expectedRecipe,
-    //   } = helpers.makeMaliciousRecipe(testUser)
+    context(`Given an XSS attack recipe`, () => {
+      const testUser = helpers.makeUsersArray()[0]
+      const testCategory = helpers.makeCategoriesArray()[0]
+      const {
+        maliciousRecipe,
+        expectedRecipe,
+      } = helpers.makeMaliciousRecipe(testUser, testCategory)
+      beforeEach('insert malicious recipe', () => {
+        return helpers.seedMaliciousRecipe(
+          db,
+          testUser,
+          maliciousRecipe,
+          testCategory,
+        )
+      })
 
-    //   beforeEach('insert malicious recipe', () => {
-    //     return helpers.seedMaliciousRecipe(
-    //       db,
-    //       testUser,
-    //       maliciousRecipe,
-    //     )
-    //   })
-
-    //   it('removes XSS attack content', () => {
-    //     return supertest(app)
-    //       .get(`/api/recipes`)
-    //       .expect(200)
-    //       .expect(res => {
-    //         expect(res.body[0].name).to.eql(expectedRecipe.name)
-    //         expect(res.body[0].content).to.eql(expectedRecipe.content)
-    //       })
-    //   })
-    // })
+      it('removes XSS attack content', () => {
+        return supertest(app)
+          .get(`/api/recipes`)
+          .expect(200)
+          .expect(res => {
+            expect(res.body[0].name).to.eql(expectedRecipe.name)
+            expect(res.body[0].content).to.eql(expectedRecipe.content)
+          })
+      })
+    })
   })
 
   describe(`GET /api/recipes/:recipe_id`, () => {
@@ -129,34 +130,34 @@ describe('Recipes Endpoints', function() {
       })
     })
 
-    // context(`Given an XSS attack recipe`, () => {
-    //   const testUser = helpers.makeUsersArray()[0]
-    //   const testCategory = helpers.makeCategoriesArray()[0]
-    //   const {
-    //     maliciousRecipe,
-    //     expectedRecipe,
-    //   } = helpers.makeMaliciousRecipe(testUser, testCategory )
+    context(`Given an XSS attack recipe`, () => {
+      const testUser = helpers.makeUsersArray()[0]
+      const testCategory = helpers.makeCategoriesArray()[0]
+      const {
+        maliciousRecipe,
+        expectedRecipe,
+      } = helpers.makeMaliciousRecipe(testUser, testCategory )
 
-    //   beforeEach('insert malicious recipe', () => {
-    //     return helpers.seedMaliciousRecipe(
-    //       db,
-    //       testUser,
-    //       maliciousRecipe,
-    //       testCategory,
-    //     )
-    //   })
+      beforeEach('insert malicious recipe', () => {
+        return helpers.seedMaliciousRecipe(
+          db,
+          testUser,
+          maliciousRecipe,
+          testCategory,
+        )
+      })
 
-    //   it('removes XSS attack content', () => {
-    //     return supertest(app)
-    //       .get(`/api/recipes/${maliciousRecipe.id}`)
-    //       .set('Authorization', helpers.makeAuthHeader(testUser))
-    //       .expect(200)
-    //       .expect(res => {
-    //         expect(res.body.name).to.eql(expectedRecipe.name)
-    //         expect(res.body.content).to.eql(expectedRecipe.content)
-    //       })
-    //   })
-    // })
+      it('removes XSS attack content', () => {
+        return supertest(app)
+          .get(`/api/recipes/${maliciousRecipe.id}`)
+          .set('Authorization', helpers.makeAuthHeader(testUser))
+          .expect(200)
+          .expect(res => {
+            expect(res.body.name).to.eql(expectedRecipe.name)
+            expect(res.body.content).to.eql(expectedRecipe.content)
+          })
+      })
+    })
   })
 
   describe(`GET /api/recipes/:recipe_id/comments`, () => {

@@ -159,12 +159,13 @@ function makeMaliciousRecipe(user, category) {
   const maliciousRecipe = {
     id: 911,
     date_created: new Date(),
+    category_id: category.id,
     name: 'Naughty naughty very naughty <script>alert("xss");</script>',
     author_id: user.id,
     content: `Bad image <img src="https://url.to.file.which/does-not.exist" onerror="alert(document.cookie);">. But not <strong>all</strong> bad.`,
   }
   const expectedRecipe = {
-    ...makeExpectedRecipe([user], maliciousRecipe),
+    ...makeExpectedRecipe([user], maliciousRecipe, [category]),
     name: 'Naughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
     content: `Bad image <img src="https://url.to.file.which/does-not.exist">. But not <strong>all</strong> bad.`,
   }
@@ -223,15 +224,26 @@ function seedUsers(db, users) {
     )
 }
 
+function seedCategories(db, categories) {
+    return db.into('enjoycook_categories').insert(categories)
+     .then(() => 
+        db.raw(
+            `SELECT setval('enjoycook_categories_id_seq', ?)`,
+            [categories[categories.length - 1].id],
+        )
+     )
+}
+
 function seedRecipesTables(db, users, recipes, categories, comments=[]) {
   // use a transaction to group the queries and auto rollback on any failure
   return db.transaction(async trx => {
     await seedUsers(trx, users)
-    await trx.into('enjoycook_categories').insert(categories)
-    await trx.raw(
-      `SELECT setval('enjoycook_categories_id_seq', ?)`,
-      [categories[categories.length - 1].id],
-    )
+    await seedCategories(trx, categories)
+    // await trx.into('enjoycook_categories').insert(categories)
+    // await trx.raw(
+    //   `SELECT setval('enjoycook_categories_id_seq', ?)`,
+    //   [categories[categories.length - 1].id],
+    // )
     await trx.into('enjoycook_recipes').insert(recipes)
     // update the auto sequence to match the forced id values
     await trx.raw(
@@ -250,14 +262,19 @@ function seedRecipesTables(db, users, recipes, categories, comments=[]) {
   })
 }
 
-// function seedMaliciousRecipe(db, user, recipe) {
+function seedMaliciousRecipe(db, user, recipe, category) {
+    return db.transaction(async trx => {
+        await seedUsers(trx, [user])
+        await seedCategories(trx, [category])
+        await trx.into('enjoycook_recipes').insert([recipe])
+    })
 //   return seedUsers(db, [user])
 //     .then(() =>
 //       db
 //         .into('enjoycook_recipes')
 //         .insert([recipe])
 //     )
-// }
+}
 
 function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
   const token = jwt.sign({ user_id: user.id }, secret, {
@@ -272,13 +289,14 @@ module.exports = {
   makeRecipesArray,
   makeExpectedRecipe,
   makeExpectedRecipeComments,
-//   makeMaliciousRecipe,
+  makeMaliciousRecipe,
   makeCommentsArray,
   makeCategoriesArray,
   makeRecipesFixtures,
   cleanTables,
   seedRecipesTables,
-//   seedMaliciousRecipe,
+  seedMaliciousRecipe,
   makeAuthHeader,
   seedUsers,
+  seedCategories,
 }
