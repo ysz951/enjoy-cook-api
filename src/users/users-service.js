@@ -4,11 +4,32 @@ const xss = require('xss')
 const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/
 
 const UsersService = {
-  getById(db, id) {
-    return db.from('enjoycook_users').select('*').where('id', id).first()
+  getRecipeForUser(db, collector_id, rec_id) {
+    return db
+      .from('enjoycook_recipes_collectors')
+      .select('rec_id')
+      .where('collector_id', collector_id).andWhere('rec_id', rec_id)
   },
-  getRecipesForCollector(db, id) {
-    return db.from('enjoycook_recipes_collectors').select('rec_id').where('collector_id', id)
+  deleteRecipeForuser(db, collector_id, rec_id) {
+    return db('enjoycook_recipes_collectors')
+      .where('collector_id', collector_id).andWhere('rec_id', rec_id)
+      .delete()
+  },
+  getRecipesForCollector(db, collector_id) {
+    return db
+      .from('enjoycook_recipes_collectors')
+      .select('rec_id')
+      .where('collector_id', collector_id)
+  },
+
+  insertRecipeForCollector(db, newRecipe) {
+    return db
+      .insert(newRecipe)
+      .into('enjoycook_recipes_collectors')
+      .returning('*')
+      .then(rows => {
+        return rows[0]
+      })
   },
 
   hasUserWithUserName(db, user_name) {
@@ -42,6 +63,13 @@ const UsersService = {
   hashPassword(password) {
     return bcrypt.hash(password, 12)
   },
+
+  serializeRecipe(recipe) {
+    return {
+      rec_id: recipe.rec_id
+    }
+  }
+  ,
   serializeUser(user) {
     return {
       id: user.id,

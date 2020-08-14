@@ -75,24 +75,65 @@ usersRouter
         res.json(comments)
       })
       .catch(next)
-})
+  })
+  .post(requireAuth, jsonBodyParser, (req, res, next) => {
+    const { rec_id } = req.body
+    const newRecipe = { rec_id }
 
-// async function checkUserExists(req, res, next) {
-//   try {
-//     const user = await UsersService.getById(
-//       req.app.get('db'),
-//       req.params.user_id
-//     )
+    for (const [key, value] of Object.entries(newRecipe))
+      if (value == null)
+        return res.status(400).json({
+          error: `Missing '${key}' in request body`
+        })
 
-//     if (!user)
-//       return res.status(404).json({
-//         error: `User doesn't exist`
-//       })
+    newRecipe.collector_id = req.user.id
 
-//     res.user = user
-//     next()
-//   } catch (error) {
-//     next(error)
-//   }
-// }
+    UsersService.insertRecipeForCollector(
+      req.app.get('db'),
+      newRecipe
+    )
+      .then(comment => {
+        res
+          .status(201)
+          .location(path.posix.join(req.originalUrl, `/${comment.rec_id}`))
+          .json(UsersService.serializeRecipe(comment))
+      })
+      .catch(next)
+    })
+usersRouter
+  .route('/collections/:rec_id')
+  .all(requireAuth)
+  .all(checkUserRecipeExists)
+  .delete(jsonBodyParser, (req, res, next) => {
+    
+    UsersService.deleteRecipeForuser(
+      req.app.get('db'),
+      req.user.id,
+      req.params.rec_id
+    )
+      .then(numRowsAffected => {
+        res.status(204).end()
+      })
+      .catch(next)
+  })
+async function checkUserRecipeExists(req, res, next) {
+  try {
+    // console.log(req.params.rec_id)
+    // const collector_id = "1";
+    const rec = await UsersService.getRecipeForUser(
+      req.app.get('db'),
+      req.user.id,
+      req.params.rec_id
+    )
+    // console.log(rec)
+    if (!rec)
+      return res.status(404).json({
+        error: `User doesn't exist`
+      })
+
+    next()
+  } catch (error) {
+    next(error)
+  }
+}
 module.exports = usersRouter
