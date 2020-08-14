@@ -2,7 +2,7 @@ const knex = require('knex')
 const app = require('../src/app')
 const helpers = require('./test-helpers')
 
-describe('Recipes Endpoints', function() {
+describe.only('Recipes Endpoints', function() {
   let db
 
   const {
@@ -11,7 +11,8 @@ describe('Recipes Endpoints', function() {
     testCategories,
     testComments,
   } = helpers.makeRecipesFixtures()
-  
+  const expectedCategoryRecipes = helpers.makeExpectedCategoryRecipes(testUsers, testRecipes, testCategories, 1, testComments)
+  console.log(expectedCategoryRecipes)
   before('make knex instance', () => {
     db = knex({
       client: 'pg',
@@ -26,7 +27,7 @@ describe('Recipes Endpoints', function() {
 
   afterEach('cleanup', () => helpers.cleanTables(db))
 
-  describe(`GET /api/recipes`, () => {
+  describe.only(`GET /api/recipes`, () => {
     context(`Given no recipes`, () => {
       it(`responds with 200 and an empty list`, () => {
         return supertest(app)
