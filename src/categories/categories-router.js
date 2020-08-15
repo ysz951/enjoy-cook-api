@@ -34,7 +34,7 @@ async function checkCategorieExists(req, res, next) {
     )
     if (!categorie)
       return res.status(404).json({
-        error: `Categorie doesn't exist`
+        error: `Category doesn't exist`
       })
 
     // res.categorie = categorie

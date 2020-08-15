@@ -1,7 +1,7 @@
 const xss = require('xss')
 
 const CommentsService = {
-  getById(db, id) {
+  getAllComments(db) {
     return db
       .from('enjoycook_comments AS comm')
       .select(
@@ -30,6 +30,9 @@ const CommentsService = {
         'comm.user_id',
         'usr.id',
       )
+  },
+  getById(db, id) {
+    return CommentsService.getAllComments(db)
       .where('comm.id', id)
       .first()
   },

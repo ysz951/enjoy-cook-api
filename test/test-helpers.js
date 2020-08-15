@@ -209,6 +209,24 @@ function makeExpectedCategory(category) {
   
 }
 
+function makeExpectedComment(users, comment) {
+  const commentUser = users.find(user => user.id === comment.user_id)
+  return {
+    id: comment.id,
+    content: comment.content,
+    date_created: comment.date_created.toISOString(),
+    recipe_id: comment.recipe_id,
+    user: {
+      id: commentUser.id,
+      user_name: commentUser.user_name,
+      full_name: commentUser.full_name,
+      nickname: commentUser.nickname,
+      date_created: commentUser.date_created.toISOString(),
+      date_modified: commentUser.date_modified || null,
+    }
+  }
+}
+
 function makeExpectedRecipeComments(users, recipeId, comments) {
   const expectedComments = comments
     .filter(comment => comment.recipe_id === recipeId)
@@ -377,4 +395,5 @@ module.exports = {
   seedCollectionsTables,
   makeExpectedCollection,
   makeExpectedSearchRecipes,
+  makeExpectedComment,
 }

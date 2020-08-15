@@ -26,8 +26,59 @@ describe('Comments Endpoints', function() {
   before('cleanup', () => helpers.cleanTables(db))
 
   afterEach('cleanup', () => helpers.cleanTables(db))
+  describe(`GET /api/comments`, () => {
+    context('Given there are comments in the database', () => {
+      beforeEach('insert comments', () =>
+        helpers.seedRecipesTables(
+          db,
+          testUsers,
+          testRecipes,
+          testCategories,
+          testComments,
+        )
+      )
+      it('responds with 200 and all of the comments', () => {
+        const expectedComments = testComments.map(comment => 
+          helpers.makeExpectedComment(
+            testUsers,
+            comment,
+          )
+        )
+        return supertest(app)
+          .get('/api/comments')
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+          .expect(200, expectedComments)
+      })
+    })
+  })
+  describe(`GET /api/comments/comment_id`, () => {
+    context('Given there are recipes in the database', () => {
+      beforeEach('insert comments', () =>
+        helpers.seedRecipesTables(
+          db,
+          testUsers,
+          testRecipes,
+          testCategories,
+          testComments,
+        )
+      )
+      it('responds with 200 and the specified comment', () => {
+        const commentId = 1
+        const expectedComment = 
+          helpers.makeExpectedComment(
+            testUsers,
+            testComments[commentId - 1],
+          )
+        
+        return supertest(app)
+          .get(`/api/comments/${commentId}`)
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+          .expect(200, expectedComment)
+      })
+    })
+  })
   describe(`POST /api/comments`, () => {
-    beforeEach('insert recipes', () =>
+    beforeEach('insert comments', () =>
       helpers.seedRecipesTables(
         db,
         testUsers,
@@ -111,8 +162,8 @@ describe('Comments Endpoints', function() {
       })
     })
 
-    context('Given there are notes in the database', () => {
-      beforeEach('insert recipes', () =>
+    context('Given there are comments in the database', () => {
+      beforeEach('insert comments', () =>
         helpers.seedRecipesTables(
           db,
           testUsers,
@@ -123,16 +174,29 @@ describe('Comments Endpoints', function() {
       )
       it('responds with 204 and removes the comment', () => {
         const idToRemove = 1
+        const deleteComments = testComments.filter(comment => comment.id !== idToRemove)
+        const expectedDeleteComments = deleteComments.map(comment => 
+          helpers.makeExpectedComment(
+            testUsers,
+            comment,
+          )
+        )
         return supertest(app)
           .delete(`/api/comments/${idToRemove}`)
           .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(204)
+          .then(res =>
+            supertest(app)
+              .get(`/api/comments`)
+              .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+              .expect(expectedDeleteComments)
+          )
       })
     })
   })
   describe(`PATCH /api/comments/:comment_id`, () => {
-    context('Given there are notes in the database', () => {
-      beforeEach('insert recipes', () =>
+    context('Given there are comments in the database', () => {
+      beforeEach('insert comments', () =>
         helpers.seedRecipesTables(
           db,
           testUsers,
@@ -145,13 +209,26 @@ describe('Comments Endpoints', function() {
         const idToUpdate = 1
         const updateComment = {
           content: 'updated comment content',
-          recipe_id: 1,
+          recipe_id: testComments[idToUpdate - 1].recipe_id
         }
+        const expectedComment =  helpers.makeExpectedComment(
+          testUsers,
+          {
+            ...testComments[idToUpdate - 1],
+            ...updateComment,
+          },
+        )
         return supertest(app)
           .patch(`/api/comments/${idToUpdate}`)
           .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .send(updateComment)
           .expect(204)
+          .then(res =>
+            supertest(app)
+              .get(`/api/comments/${idToUpdate}`)
+              .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+              .expect(expectedComment)
+          )
       })
     })
   })

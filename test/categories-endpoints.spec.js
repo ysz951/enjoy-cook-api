@@ -2,7 +2,7 @@ const knex = require('knex')
 const app = require('../src/app')
 const helpers = require('./test-helpers')
 
-describe('Recipes Endpoints', function() {
+describe('Categories Endpoints', function() {
   let db
   const {
     testUsers,
@@ -51,18 +51,18 @@ describe('Recipes Endpoints', function() {
   })
 
   describe(`GET /api/categories/:categoy_id`, () => {
-    context(`Given no recipes`, () => {
+    context(`Given no categories`, () => {
       it(`responds with 404`, () => {
         const categoryId = 123456
         return supertest(app)
           .get(`/api/categories/${categoryId}`)
           .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
-          .expect(404, { error: `Categorie doesn't exist` })
+          .expect(404, { error: `Category doesn't exist` })
       })
     })
 
-    context('Given there are recipes in the database', () => {
-      beforeEach('insert recipes', () =>
+    context('Given there are categories in the database', () => {
+      beforeEach('insert categories', () =>
         helpers.seedRecipesTables(
           db,
           testUsers,
@@ -80,13 +80,11 @@ describe('Recipes Endpoints', function() {
           categoryId,
           testComments,
         )
-
         return supertest(app)
           .get(`/api/categories/${categoryId}`)
           .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(200, expectedCategoryRecipes)
       })
     })
-
   })
 })

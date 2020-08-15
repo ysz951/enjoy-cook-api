@@ -8,6 +8,13 @@ const jsonBodyParser = express.json()
 
 commentsRouter
   .route('/')
+  .get(requireAuth, (req, res, next) => {
+    CommentsService.getAllComments(req.app.get('db'))
+      .then(comments => {
+        res.json(comments.map(CommentsService.serializeComment))
+      })
+      .catch(next)
+  })
   .post(requireAuth, jsonBodyParser, (req, res, next) => {
     const { recipe_id, content } = req.body
     const newComment = { recipe_id, content }
@@ -34,6 +41,9 @@ commentsRouter
 commentsRouter
   .route('/:comment_id')
   .all(checkCommentExists)
+  .get(requireAuth, (req, res, next) => {
+      res.json(CommentsService.serializeComment(res.comment))
+  })
   .delete(requireAuth, jsonBodyParser, (req, res, next) => {
     CommentsService.deleteComment(
       req.app.get('db'),
@@ -75,7 +85,7 @@ async function checkCommentExists(req, res, next) {
         error: `Comment doesn't exist`
       })
 
-    // res.comment = comment
+    res.comment = comment
     next()
   } catch (error) {
     next(error)

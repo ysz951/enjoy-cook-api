@@ -16,8 +16,6 @@ usersRouter
           error: `Missing '${field}' in request body`
         })
 
-    // TODO: check user_name doesn't start with spaces
-
     const passwordError = UsersService.validatePassword(password)
 
     if (passwordError)
@@ -55,16 +53,7 @@ usersRouter
       })
       .catch(next)
   })
-// usersRouter
-//   .route('/:user_id')
-//   .all(checkUserExists)
-//   .get((req, res) => {
-//     res.json(UsersService.serializeUser(res.user))
-//   })
-
 usersRouter
-  // .route('/:user_id/collections')
-  // .all(checkUserExists)
   .route('/collections')
   .get(requireAuth, (req, res, next) => {
       UsersService.getRecipesForCollector(
@@ -118,19 +107,15 @@ usersRouter
   })
 async function checkUserRecipeExists(req, res, next) {
   try {
-    // console.log(req.params.rec_id)
-    // const collector_id = "1";
     const rec = await UsersService.getRecipeForUser(
       req.app.get('db'),
       req.user.id,
       req.params.rec_id
     )
-    // console.log(rec)
     if (!rec)
       return res.status(404).json({
         error: `User doesn't exist`
       })
-
     next()
   } catch (error) {
     next(error)
