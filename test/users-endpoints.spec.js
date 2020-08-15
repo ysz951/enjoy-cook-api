@@ -5,10 +5,14 @@ const helpers = require('./test-helpers')
 
 describe('Users Endpoints', function() {
   let db
-
-  const { testUsers } = helpers.makeRecipesFixtures()
+  const { 
+    testUsers,
+    testRecipes,
+    testCategories,
+  } = helpers.makeRecipesFixtures()
   const testUser = testUsers[0]
-
+  const testRecipe = testRecipes[0]
+  const newRecipe = {rec_id: testRecipe.id, collector_id: testUser.id}
   before('make knex instance', () => {
     db = knex({
       client: 'pg',
@@ -68,6 +72,25 @@ describe('Users Endpoints', function() {
               })
           )
       })
+    })
+  })
+  describe(`GET/api/users/collections`, () => {
+    beforeEach('insert collections', () =>
+      helpers.seedCollectionsTables(
+        db, 
+        testUsers, 
+        testRecipes, 
+        testCategories, 
+        newRecipe
+      )
+    )
+    it('responds with 200 and the specified collection', () => {
+      const recipeId = 1
+      const expectedCollection = helpers.makeExpectedCollection(testRecipes, recipeId)
+      return supertest(app)
+        .get(`/api/users/collections`)
+        .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+        .expect(200, expectedCollection)
     })
   })
 })

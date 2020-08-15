@@ -43,7 +43,6 @@ describe('Comments Endpoints', function() {
         content: 'Test new comment',
         recipe_id: testRecipe.id,
       }
-      console.log(helpers.makeAuthHeader(testUsers[0]))
       return supertest(app)
         .post('/api/comments')
         .set('Authorization', helpers.makeAuthHeader(testUsers[0]))

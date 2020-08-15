@@ -106,6 +106,15 @@ function makeCommentsArray(users, recipes) {
   ];
 }
 
+function makeExpectedCollection(recipes, recipeId) {
+  const expectedCollections = recipes.filter(recipe => recipe.id === recipeId)
+  return expectedCollections.map(recipe => {
+    return {
+      rec_id: recipe.id
+    }
+  })
+}
+
 function makeExpectedRecipe(users, recipe, categories, comments=[]) {
   const author = users
     .find(user => user.id === recipe.author_id)
@@ -160,7 +169,45 @@ function makeExpectedCategoryRecipes(users, recipes, categories, categoryId, com
         }
       }
     })
+}
+
+function makeExpectedSearchRecipes(users, recipes, categories, query, comments=[]) {
+  const expectedRecipes = recipes
+    .filter(recipe => recipe.name.includes(query))
+
+  return expectedRecipes.map(recipe => {
+    const author = users.find(user => user.id === recipe.author_id)
+    const category = categories.find(category => category.id === recipe.category_id)
+    const number_of_comments = comments
+      .filter(comment => comment.recipe_id === recipe.id)
+      .length
+    return {
+      id: recipe.id,
+      name: recipe.name,
+      content: recipe.content,
+      date_created: recipe.date_created.toISOString(),
+      number_of_comments,
+      category: category ? category.name : null,
+      author: {
+          id: author.id,
+          user_name: author.user_name,
+          full_name: author.full_name,
+          nickname: author.nickname,
+          date_created: author.date_created.toISOString(),
+          date_modified: author.date_modified || null,
+      }
+    }
+  })
+}
+
+
+function makeExpectedCategory(category) {
+  return {
+    id: category.id,
+    name: category.name,
   }
+  
+}
 
 function makeExpectedRecipeComments(users, recipeId, comments) {
   const expectedComments = comments
@@ -286,6 +333,14 @@ function seedRecipesTables(db, users, recipes, categories, comments=[]) {
   })
 }
 
+function seedCollectionsTables(db, users, recipes, categories, newRecipe, comments = []) {
+  return db.transaction(async trx => {
+    await seedRecipesTables(db, users, recipes, categories, comments)
+    await trx.into('enjoycook_recipes_collectors').insert(newRecipe)
+  })
+}
+
+
 function seedMaliciousRecipe(db, user, recipe, category) {
     return db.transaction(async trx => {
         await seedUsers(trx, [user])
@@ -308,6 +363,7 @@ module.exports = {
   makeExpectedRecipe,
   makeExpectedRecipeComments,
   makeExpectedCategoryRecipes,
+  makeExpectedCategory,
   makeMaliciousRecipe,
   makeCommentsArray,
   makeCategoriesArray,
@@ -318,4 +374,7 @@ module.exports = {
   makeAuthHeader,
   seedUsers,
   seedCategories,
+  seedCollectionsTables,
+  makeExpectedCollection,
+  makeExpectedSearchRecipes,
 }
