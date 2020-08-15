@@ -52,10 +52,6 @@ describe('Recipes Endpoints', function() {
 
   describe(`GET /api/categories/:categoy_id`, () => {
     context(`Given no recipes`, () => {
-      beforeEach(() =>
-        helpers.seedUsers(db, testUsers)
-      )
-
       it(`responds with 404`, () => {
         const categoryId = 123456
         return supertest(app)

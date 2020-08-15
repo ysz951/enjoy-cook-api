@@ -1,6 +1,7 @@
 const knex = require('knex')
 const app = require('../src/app')
 const helpers = require('./test-helpers')
+const { expect } = require('chai')
 
 describe('Comments Endpoints', function() {
   let db
@@ -9,6 +10,7 @@ describe('Comments Endpoints', function() {
     testRecipes,
     testUsers,
     testCategories,
+    testComments,
   } = helpers.makeRecipesFixtures()
 
   before('make knex instance', () => {
@@ -24,7 +26,6 @@ describe('Comments Endpoints', function() {
   before('cleanup', () => helpers.cleanTables(db))
 
   afterEach('cleanup', () => helpers.cleanTables(db))
-
   describe(`POST /api/comments`, () => {
     beforeEach('insert recipes', () =>
       helpers.seedRecipesTables(
@@ -95,6 +96,62 @@ describe('Comments Endpoints', function() {
           .expect(400, {
             error: `Missing '${field}' in request body`,
           })
+      })
+    })
+    
+  })
+  describe(`DELETE /api/comments/:comment_id`, () => {
+    context(`Given no comments`, () => {
+      it(`responds with 404`, () => {
+        const commentId = 123456
+        return supertest(app)
+          .delete(`/api/comments/${commentId}`)
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+          .expect(404, { error: `Comment doesn't exist` })
+      })
+    })
+
+    context('Given there are notes in the database', () => {
+      beforeEach('insert recipes', () =>
+        helpers.seedRecipesTables(
+          db,
+          testUsers,
+          testRecipes,
+          testCategories,
+          testComments,
+        )
+      )
+      it('responds with 204 and removes the comment', () => {
+        const idToRemove = 1
+        return supertest(app)
+          .delete(`/api/comments/${idToRemove}`)
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+          .expect(204)
+      })
+    })
+  })
+  describe(`PATCH /api/comments/:comment_id`, () => {
+    context('Given there are notes in the database', () => {
+      beforeEach('insert recipes', () =>
+        helpers.seedRecipesTables(
+          db,
+          testUsers,
+          testRecipes,
+          testCategories,
+          testComments,
+        )
+      )
+      it('responds with 204 and updates the comment', () => {
+        const idToUpdate = 1
+        const updateComment = {
+          content: 'updated comment content',
+          recipe_id: 1,
+        }
+        return supertest(app)
+          .patch(`/api/comments/${idToUpdate}`)
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+          .send(updateComment)
+          .expect(204)
       })
     })
   })

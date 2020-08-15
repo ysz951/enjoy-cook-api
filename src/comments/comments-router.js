@@ -54,7 +54,6 @@ commentsRouter
           error: `Missing '${key}' in request body`
         })
     CommentToUpdate.user_id = req.user.id
-    // CommentToUpdate.user_id = 1
     CommentsService.updateComment(
       req.app.get('db'),
       req.params.comment_id,

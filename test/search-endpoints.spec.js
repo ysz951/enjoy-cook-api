@@ -2,7 +2,7 @@ const knex = require('knex')
 const app = require('../src/app')
 const helpers = require('./test-helpers')
 
-describe.only('Recipes Endpoints', function() {
+describe('Recipes Endpoints', function() {
   let db
   const {
     testUsers,
@@ -45,7 +45,7 @@ describe.only('Recipes Endpoints', function() {
           testComments,
         )
         return supertest(app)
-          .get(`/api/search/${query }`)
+          .get(`/api/search/${query}`)
           .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(200, expectedSearchRecipes)
       })

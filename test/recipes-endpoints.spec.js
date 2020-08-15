@@ -4,7 +4,6 @@ const helpers = require('./test-helpers')
 
 describe('Recipes Endpoints', function() {
   let db
-
   const {
     testUsers,
     testRecipes,
@@ -89,10 +88,6 @@ describe('Recipes Endpoints', function() {
 
   describe(`GET /api/recipes/:recipe_id`, () => {
     context(`Given no recipes`, () => {
-      beforeEach(() =>
-        helpers.seedUsers(db, testUsers)
-      )
-
       it(`responds with 404`, () => {
         const recipeId = 123456
         return supertest(app)
@@ -161,10 +156,6 @@ describe('Recipes Endpoints', function() {
 
   describe(`GET /api/recipes/:recipe_id/comments`, () => {
     context(`Given no recipes`, () => {
-      beforeEach(() =>
-        helpers.seedUsers(db, testUsers)
-      )
-
       it(`responds with 404`, () => {
         const recipeId = 123456
         return supertest(app)
