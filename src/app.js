@@ -9,9 +9,9 @@ const searchRouter = require('./search/search-router')
 const authRouter = require('./auth/auth-router')
 const usersRouter = require('./users/users-router')
 const { NODE_ENV } = require('./config')
-
+const profile = require( './profile' );
 const app = express()
-
+app.use(express.json());
 const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
   : 'common';
@@ -29,6 +29,7 @@ app.use('/api/categories', categoriesRouter)
 app.use('/api/search', searchRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/users', usersRouter)
+app.use( '/api/profile', profile )
 
 app.use(function errorHandler(error, req, res, next) {
     let response
