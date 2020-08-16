@@ -3,6 +3,7 @@ CREATE TABLE enjoycook_recipes (
     name TEXT NOT NULL,
     content TEXT NOT NULL,
     date_created TIMESTAMP DEFAULT now() NOT NULL,
+    img_src TEXT,
     category_id INTEGER
         REFERENCES enjoycook_categories(id) ON DELETE SET NULL,
     author_id INTEGER
