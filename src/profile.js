@@ -58,8 +58,6 @@ if( mimetype && extname ){
  * @desc Upload post image
  * @access public
  */
-
-
 router.post( '/profile-img-upload', ( req, res ) => {
   profileImgUpload( req, res, ( error ) => {
     // console.log( 'requestOkokok', req.file );
@@ -87,35 +85,6 @@ router.post( '/profile-img-upload', ( req, res ) => {
     }
   });
 });
-
-
-// router.post( '/profile-img-upload', ( req, res ) => {
-//   profileImgUpload( req, res, ( error ) => {
-//     // console.log( 'requestOkokok', req.file );
-//     // console.log( 'error', error );
-//     if( error ){
-//       console.log( 'errors', error );
-//       res.json( { error: error } );
-//     } 
-//     else {
-//     // If File not found
-//       if( req.file === undefined ){
-//         console.log( 'Error: No File Selected!' );
-//         res.json( 'Error: No File Selected' );
-//     } 
-//       else {
-//       // If Success
-//         const imageName = req.file.key;
-//         const imageLocation = req.file.location;
-//   // Save the file name into database into profile model
-//         res.json({
-//           image: imageName,
-//           location: imageLocation
-//         });
-//       }
-//     }
-//   });
-// });
 // End of single profile upload
 /**
  * BUSINESS GALLERY IMAGES
