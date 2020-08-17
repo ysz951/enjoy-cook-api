@@ -32,11 +32,16 @@ VALUES
   ('Repudiandae eligendi libero ad ut dolores. Laborum nihil sint et labore iusto reiciendis cum. Repellat quos recusandae natus nobis ullam autem veniam id.\n \rEsse blanditiis neque tempore ex voluptate commodi nemo. Velit sapiente at placeat eveniet ut rem. Quidem harum ut dignissimos. Omnis pariatur quas aperiam. Quasi voluptas qui nulla. Iure quas veniam aut quia et.', 1, 1),
   ('Veritatis mollitia et molestias voluptas neque aspernatur reprehenderit.\n \rMaxime aut reprehenderit mollitia quia eos sit fugiat exercitationem. Minima dolore soluta. Quidem fuga ut sit voluptas nihil sunt aliquam dignissimos. Ex autem nemo quisquam voluptas consequuntur et necessitatibus minima velit. Consequatur quia quis tempora minima. Aut qui dolor et dignissimos ut repellat quas ad.', 2, 2),
   ('Ex autem nemo quisquam voluptas consequuntur et necessitatibus minima velit. Consequatur quia quis tempora minima. Aut qui dolor et dignissimos ut repellat quas ad.', 1, 2),
-  ('eligendi libero ad ut dolores. Laborum nihil sint', 2, 1);
---INSERT INTO enjoycook_recipes_collectors (rec_id, collector_id)
---VALUES
---  (1, 1),
---  (2, 1); 
+  ('eligendi libero  Laborum nihil sint et labore iusto reic ad ut dolores. Laborum nihil sint r et necessitatibus minima velit. Consequatur quia quis ', 3, 3),
+  ('eligendi libero ad ut dolores. Laborum nihil sint', 3, 1),
+ ('eligendi libero ad r et necessitatibus minima velit. Consequatur quia quis  ut dolores. Laborum nihil sint', 4, 1),
+ ('eligendi   laudantium quia ab blanditiis temporibus necessit libero ad ut dolores. Laborum nihil sint', 4, 2);
+INSERT INTO enjoycook_recipes_collectors (rec_id, collector_id)
+VALUES
+  (1, 1),
+  (2, 1),
+  (4, 2),
+  (3, 3);
 COMMIT;
 
         
