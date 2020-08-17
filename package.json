@@ -16,9 +16,6 @@
   },
   "keywords": [],
   "author": "Shengyang Zhou <shengyang_zhou@hotmail.com>",
-  "engines": {
-    "node": "12.6.3"
-   },
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
