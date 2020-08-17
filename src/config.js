@@ -1,7 +1,7 @@
 module.exports = {
     PORT: process.env.PORT || 8000,
     NODE_ENV: process.env.NODE_ENV || "development",
-    DATABASE_URL: process.env.DATABASE_URL_URL || "postgresql://enjoycook_server@localhost/enjoycook",
+    DATABASE_URL: process.env.DATABASE_URL || "postgresql://enjoycook_server@localhost/enjoycook",
     TEST_DATABASE_URL: process.env.TEST_DATABASE_URL || "postgresql://enjoycook_server@localhost/enjoycook-test",
     JWT_SECRET: process.env.JWT_SECRET || 'change-this-secret',
     JWT_EXPIRY: process.env.JWT_EXPIRY || '3h',
