@@ -1,5 +1,5 @@
 {
-  "name": "express-boilerplate",
+  "name": "enjoy-cook-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,7 +15,10 @@
     "postdeploy": "npm run migrate:production"
   },
   "keywords": [],
-  "author": "",
+  "author": "Shengyang Zhou <shengyang_zhou@hotmail.com>",
+  "engines": {
+    "node": "12.6.3"
+   },
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
