@@ -85,7 +85,55 @@ describe('Recipes Endpoints', function() {
       })
     })
   })
+  describe(`POST /api/comments`, () => {
+    beforeEach('insert comments', () =>
+      helpers.seedRecipesTables(
+        db,
+        testUsers,
+        testRecipes,
+        testCategories,
+      )
+    )
 
+    it(`creates an recipe, responding with 201 and the new recipe`, function() {
+      this.retries(2)
+      const testUser = testUsers[0]
+      const newComment = {
+        name: 'test name',
+        content: 'Test new recipe',
+        author_id: testUser.id,
+        step: [['test', '1']]
+      }
+      return supertest(app)
+        .post('/api/recipes')
+        .set('Authorization', helpers.makeAuthHeader(testUser))
+        .send(newComment)
+        .expect(201)
+        .expect(res => {
+          expect(res.body).to.have.property('id')
+          expect(res.body.content).to.eql(newComment.content)
+          expect(res.body.step).to.eql(newComment.step)
+          expect(res.headers.location).to.eql(`/api/recipes/${res.body.id}`)
+          const expectedDate = new Date().toLocaleString('en', { timeZone: 'UTC' })
+          const actualDate = new Date(res.body.date_created).toLocaleString()
+          expect(actualDate).to.eql(expectedDate)
+        })
+        .expect(res =>
+          db
+            .from('enjoycook_recipes')
+            .select('*')
+            .where({ id: res.body.id })
+            .first()
+            .then(row => {
+              expect(row.content).to.eql(newComment.content)
+              expect(row.step).to.eql(newComment.step)
+              const expectedDate = new Date().toLocaleString('en', { timeZone: 'UTC' })
+              const actualDate = new Date(row.date_created).toLocaleString()
+              expect(actualDate).to.eql(expectedDate)
+            })
+        )
+    })
+  })
   describe(`GET /api/recipes/:recipe_id`, () => {
     context(`Given no recipes`, () => {
       it(`responds with 404`, () => {

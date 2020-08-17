@@ -52,6 +52,7 @@ function makeRecipesArray(users, categories) {
       author_id: users[0].id,
       category_id: categories[0].id,
       img_src:'First imge src',
+      step: null,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
       content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
     },
@@ -61,6 +62,7 @@ function makeRecipesArray(users, categories) {
       author_id: users[1].id,
       category_id: categories[1].id,
       img_src:'Second imge src',
+      step: [['second', '2']],
       date_created: new Date('2029-01-22T16:28:32.615Z'),
       content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
     },
@@ -70,6 +72,7 @@ function makeRecipesArray(users, categories) {
       author_id: users[2].id,
       category_id: null,
       img_src:null,
+      step: [['second', '2'], ['third', '3']],
       date_created: new Date('2029-01-22T16:28:32.615Z'),
       content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
     },
@@ -133,6 +136,7 @@ function makeExpectedRecipe(users, recipe, categories, comments=[]) {
     content: recipe.content,
     date_created: recipe.date_created.toISOString(),
     img_src: recipe.img_src,
+    step: recipe.step,
     number_of_comments,
     category: category ? category.name : null,
     author: {
@@ -162,6 +166,7 @@ function makeExpectedCategoryRecipes(users, recipes, categories, categoryId, com
         content: recipe.content,
         date_created: recipe.date_created.toISOString(),
         img_src: recipe.img_src,
+        step: recipe.step,
         number_of_comments,
         category: category ? category.name : null,
         author: {
@@ -192,6 +197,7 @@ function makeExpectedSearchRecipes(users, recipes, categories, query, comments=[
       content: recipe.content,
       date_created: recipe.date_created.toISOString(),
       img_src: recipe.img_src,
+      step: recipe.step,
       number_of_comments,
       category: category ? category.name : null,
       author: {
@@ -262,6 +268,7 @@ function makeMaliciousRecipe(user, category) {
     category_id: category.id,
     name: 'Naughty naughty very naughty <script>alert("xss");</script>',
     img_src: null,
+    step: null,
     author_id: user.id,
     content: `Bad image <img src="https://url.to.file.which/does-not.exist" onerror="alert(document.cookie);">. But not <strong>all</strong> bad.`,
   }

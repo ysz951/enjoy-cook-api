@@ -10,6 +10,7 @@ const RecipesService = {
         'rec.date_created',
         'rec.content',
         'rec.img_src',
+        'rec.step',
         'cate.name AS category',
         db.raw(
           `count(DISTINCT comm) AS number_of_comments`
@@ -85,7 +86,21 @@ const RecipesService = {
       )
       .groupBy('comm.id', 'usr.id')
   },
-
+  insertRecipe(db, newRecipe) {
+    return db
+      .insert(newRecipe)
+      .into('enjoycook_recipes')
+      .returning('*')
+      .then(([recipe]) => recipe)
+      .then(recipe =>
+        RecipesService.getById(db, recipe.id)
+      )
+  },
+  deleteRecipe(db, id) {
+    return db('enjoycook_recipes')
+      .where({id})
+      .delete()
+  },
   serializeRecipe(recipe) {
     const { author } = recipe
     return {
@@ -95,6 +110,7 @@ const RecipesService = {
       content: xss(recipe.content),
       category: xss(recipe.category) || null,
       img_src: xss(recipe.img_src) || null,
+      step: recipe.step || null,
       date_created: new Date(recipe.date_created),
       number_of_comments: Number(recipe.number_of_comments) || 0,
       author: {
