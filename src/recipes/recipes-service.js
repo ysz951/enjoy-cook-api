@@ -90,7 +90,6 @@ const RecipesService = {
     const { author } = recipe
     return {
       id: recipe.id,
-      style: recipe.style,
       name: xss(recipe.name),
       content: xss(recipe.content),
       category: xss(recipe.category) || null,

@@ -51,10 +51,9 @@ const SearchService = {
         const { author } = recipe
         return {
           id: recipe.id,
-          style: recipe.style,
           name: xss(recipe.name),
           content: xss(recipe.content),
-          img_src: xss(recipe.img_src),
+          img_src: xss(recipe.img_src) || null,
           category: xss(recipe.category) || null,
           date_created: new Date(recipe.date_created),
           number_of_comments: Number(recipe.number_of_comments) || 0,
