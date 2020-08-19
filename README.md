@@ -16,7 +16,15 @@ This is the back end for `Enjoy Cook`. The front end can be found at https://git
 - Bootstrap development database: `npm run migrate`
 - Bootstrap test database: `npm run migrate:test`
 - Clean database `npm run migrate -- 0`
-- `.env` file should at list inclue `NODE_ENV=development`, `PORT=8000`, `DATABASE_URL="postgresql://enjoycook_server@localhost/enjoycook"`, `TEST_DATABASE_URL="postgresql://enjoycook_server@localhost/enjoycook-test"`, `JWT_SECRET="change-this-secrect"` and `JWT_EXPIRY="3h"`.
+- `.env` file should at list inclue 
+```
+NODE_ENV=development
+PORT=8000
+DATABASE_URL="postgresql://enjoycook_server@localhost/enjoycook"
+TEST_DATABASE_URL="postgresql://enjoycook_server@localhost/enjoycook-test"
+JWT_SECRET="change-this-secrect"
+JWT_EXPIRY="3h".
+```
 
 ### Configuring Postgres
 
