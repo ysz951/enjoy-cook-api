@@ -14,11 +14,11 @@ VALUES
   ('Lunch'),
   ('Dinner');
 
-INSERT INTO enjoycook_users (user_name, full_name, nickname, password)
+INSERT INTO enjoycook_users (user_name, password)
 VALUES
-  ('tony', 'Tony Stark', 'stark', '$2a$12$.ms8.7X0jD.VcACW8Yi.k.lZGvbezTtTJijX16NlrrJl1jzo0IZ6S'),
-  ('bruce', 'Bruce Wayne', 'dark knight', '$2a$12$5QmWzkrtJaVnlsJh53BR8OZoHAUwDyWw6Z8gMCrCJbhQMGe/I8W2G'),
-  ('test', 'Test', null, '$2a$12$lHK6LVpc15/ZROZcKU00QeiD.RyYq5dVlV/9m4kKYbGibkRc5l4Ne');
+  ('tony', '$2a$12$.ms8.7X0jD.VcACW8Yi.k.lZGvbezTtTJijX16NlrrJl1jzo0IZ6S'),
+  ('bruce', '$2a$12$5QmWzkrtJaVnlsJh53BR8OZoHAUwDyWw6Z8gMCrCJbhQMGe/I8W2G'),
+  ('test', '$2a$12$lHK6LVpc15/ZROZcKU00QeiD.RyYq5dVlV/9m4kKYbGibkRc5l4Ne');
 
 INSERT INTO enjoycook_recipes (name, content, img_src, author_id, category_id)
 VALUES

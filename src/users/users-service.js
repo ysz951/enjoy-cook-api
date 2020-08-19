@@ -45,6 +45,9 @@ const UsersService = {
       .returning('*')
       .then(([user]) => user)
   },
+  validateUserName(user_name) {
+    return user_name.length > 15 ? 'User name be less than 15 characters' : null
+  },
   validatePassword(password) {
     if (password.length < 8) {
       return 'Password be longer than 8 characters'

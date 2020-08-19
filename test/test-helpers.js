@@ -6,24 +6,18 @@ function makeUsersArray() {
     {
       id: 1,
       user_name: 'test-user-1',
-      full_name: 'Test user 1',
-      nickname: 'TU1',
       password: 'password',
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
     {
       id: 2,
       user_name: 'test-user-2',
-      full_name: 'Test user 2',
-      nickname: 'TU2',
       password: 'password',
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
     {
       id: 3,
       user_name: 'test-user-3',
-      full_name: 'Test user 3',
-      nickname: 'TU3',
       password: 'password',
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
@@ -138,8 +132,6 @@ function makeExpectedRecipe(users, recipe, categories, comments=[]) {
     author: {
       id: author.id,
       user_name: author.user_name,
-      full_name: author.full_name,
-      nickname: author.nickname,
       date_created: author.date_created.toISOString(),
       date_modified: author.date_modified || null,
     },
@@ -167,8 +159,6 @@ function makeExpectedCategoryRecipes(users, recipes, categories, categoryId, com
         author: {
             id: author.id,
             user_name: author.user_name,
-            full_name: author.full_name,
-            nickname: author.nickname,
             date_created: author.date_created.toISOString(),
             date_modified: author.date_modified || null,
         }
@@ -197,8 +187,6 @@ function makeExpectedSearchRecipes(users, recipes, categories, query, comments=[
       author: {
           id: author.id,
           user_name: author.user_name,
-          full_name: author.full_name,
-          nickname: author.nickname,
           date_created: author.date_created.toISOString(),
           date_modified: author.date_modified || null,
       }
@@ -225,8 +213,6 @@ function makeExpectedComment(users, comment) {
     user: {
       id: commentUser.id,
       user_name: commentUser.user_name,
-      full_name: commentUser.full_name,
-      nickname: commentUser.nickname,
       date_created: commentUser.date_created.toISOString(),
       date_modified: commentUser.date_modified || null,
     }
@@ -246,8 +232,6 @@ function makeExpectedRecipeComments(users, recipeId, comments) {
       user: {
         id: commentUser.id,
         user_name: commentUser.user_name,
-        full_name: commentUser.full_name,
-        nickname: commentUser.nickname,
         date_created: commentUser.date_created.toISOString(),
         date_modified: commentUser.date_modified || null,
       }
