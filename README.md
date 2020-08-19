@@ -1,26 +1,57 @@
-# Express Boilerplate!
+# Enjoy Cook
+An online recipes search & share app. Find you want, make you like!
 
-This is a boilerplate project used for starting new projects!
+This is the back end for `Enjoy Cook`. The front end can be found at https://github.com/ysz951/enjoy-cook-app.
 
-## Set up
+## Setting Up
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+- Install dependencies: `npm install`
+- Create development and test databases: `createdb enjoycook`, `createdb enjoycook-test`
+- Create database user: `createuser enjoycook_server`
+- Grant privileges to new user in `psql`:
+  - `GRANT ALL PRIVILEGES ON DATABASE "enjoycook" TO enjoycook_server`
+  - `GRANT ALL PRIVILEGES ON DATABASE "enjoycook-test" TO enjoycook_server`
+- Prepare environment file: `cp example.env .env`
+- Replace values in `.env` with your custom values.
+- Bootstrap development database: `npm run migrate`
+- Bootstrap test database: `npm run migrate:test`
+- Clean database `npm run migrate -- 0`
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+### Configuring Postgres
+
+For tests involving time to run properly, your Postgres database must be configured to run in the UTC timezone.
+
+1. Locate the `postgresql.conf` file for your Postgres installation.
+    - OS X, Homebrew: `/usr/local/var/postgres/postgresql.conf`
+2. Uncomment the `timezone` line and set it to `UTC` as follows:
+
+```
+# - Locale and Formatting -
+
+datestyle = 'iso, mdy'
+#intervalstyle = 'postgres'
+timezone = 'UTC'
+#timezone_abbreviations = 'Default'     # Select the set of available time zone
+```
+
+## Sample Data
+
+- To seed the database for development: `psql -U enjoycook_server -d enjoycook -a -f seeds/seed.enjoycook_tables.sql`
+- To clear seed data: `psql -U enjoycook_server -d enjoycook -a -f seeds/trunc.enjoycook_tables.sql`
 
 ## Scripts
 
-Start the application `npm start`
+- Start application for development: `npm run dev`
+- Run tests: `npm test`
 
-Start nodemon for the application `npm run dev`
+## Built With
+### Back-End
+* #### Node and Express
+  * Authentication via JWT
+  * Restful API
+* #### DataBase
+  * Postgres SQL
+  * Knex.js - SQL query builder
 
-Run the tests `npm test`
-
-## Deploying
-
-When you
+## Author
+* **Shengyang Zhou** --- Back-End Development/testing
