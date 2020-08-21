@@ -63,8 +63,8 @@ usersRouter
       req.app.get('db'),
       req.user.id
     )
-      .then(comments => {
-        res.json(comments)
+      .then(collections => {
+        res.json(collections)
       })
       .catch(next)
   })
@@ -84,11 +84,11 @@ usersRouter
       req.app.get('db'),
       newRecipe
     )
-      .then(comment => {
+      .then(collection => {
         res
           .status(201)
-          .location(path.posix.join(req.originalUrl, `/${comment.rec_id}`))
-          .json(UsersService.serializeRecipe(comment))
+          .location(path.posix.join(req.originalUrl, `/${collection.rec_id}`))
+          .json(UsersService.serializeRecipe(collection))
       })
       .catch(next)
     })
