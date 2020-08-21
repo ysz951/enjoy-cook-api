@@ -1,7 +1,7 @@
-const express = require('express')
-const SearchService = require('./search-service')
+const express = require('express');
+const SearchService = require('./search-service');
 
-const searchRouter = express.Router()
+const searchRouter = express.Router();
 
 searchRouter
   .route('/:query')
@@ -13,4 +13,4 @@ searchRouter
       .catch(next)
   })
 
-  module.exports = searchRouter
+  module.exports = searchRouter;

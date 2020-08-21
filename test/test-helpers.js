@@ -1,5 +1,5 @@
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 function makeUsersArray() {
   return [
@@ -21,22 +21,22 @@ function makeUsersArray() {
       password: 'password',
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
-  ]
+  ];
 }
 
 function makeCategoriesArray() {
-    return [
-      {
-        id: 1,
-        name: 'test-category-1',
+  return [
+    {
+      id: 1,
+      name: 'test-category-1',
 
-      },
-      {
-        id: 2,
-        name: 'test-category-2',
-      },
-    ]
-  }
+    },
+    {
+      id: 2,
+      name: 'test-category-2',
+    },
+  ];
+}
 
 function makeRecipesArray(users, categories) {
   return [
@@ -67,7 +67,7 @@ function makeRecipesArray(users, categories) {
       date_created: new Date('2029-01-22T16:28:32.615Z'),
       content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
     },
-  ]
+  ];
 }
 
 function makeCommentsArray(users, recipes) {
@@ -104,23 +104,23 @@ function makeCommentsArray(users, recipes) {
 }
 
 function makeExpectedCollection(recipes, recipeId) {
-  const expectedCollections = recipes.filter(recipe => recipe.id === recipeId)
+  const expectedCollections = recipes.filter(recipe => recipe.id === recipeId);
   return expectedCollections.map(recipe => {
     return {
       rec_id: recipe.id
-    }
-  })
+    };
+  });
 }
 
 function makeExpectedRecipe(users, recipe, categories, comments=[]) {
   const author = users
-    .find(user => user.id === recipe.author_id)
+    .find(user => user.id === recipe.author_id);
 
   const number_of_comments = comments
     .filter(comment => comment.recipe_id === recipe.id)
-    .length
+    .length;
   const category = categories
-    .find(category => category.id === recipe.category_id)
+    .find(category => category.id === recipe.category_id);
   return {
     id: recipe.id,
     name: recipe.name,
@@ -135,40 +135,12 @@ function makeExpectedRecipe(users, recipe, categories, comments=[]) {
       date_created: author.date_created.toISOString(),
       date_modified: author.date_modified || null,
     },
-  }
+  };
 }
 
 function makeExpectedCategoryRecipes(users, recipes, categories, categoryId, comments=[]) {
-    const expectedRecipes = recipes
-      .filter(recipe => recipe.category_id === categoryId)
-  
-    return expectedRecipes.map(recipe => {
-      const author = users.find(user => user.id === recipe.author_id)
-      const category = categories.find(category => category.id === recipe.category_id)
-      const number_of_comments = comments
-        .filter(comment => comment.recipe_id === recipe.id)
-        .length
-      return {
-        id: recipe.id,
-        name: recipe.name,
-        content: recipe.content,
-        date_created: recipe.date_created.toISOString(),
-        img_src: recipe.img_src,
-        number_of_comments,
-        category: category ? category.name : null,
-        author: {
-            id: author.id,
-            user_name: author.user_name,
-            date_created: author.date_created.toISOString(),
-            date_modified: author.date_modified || null,
-        }
-      }
-    })
-}
-
-function makeExpectedSearchRecipes(users, recipes, categories, query, comments=[]) {
   const expectedRecipes = recipes
-    .filter(recipe => recipe.name.includes(query))
+    .filter(recipe => recipe.category_id === categoryId);
 
   return expectedRecipes.map(recipe => {
     const author = users.find(user => user.id === recipe.author_id)
@@ -190,8 +162,36 @@ function makeExpectedSearchRecipes(users, recipes, categories, query, comments=[
           date_created: author.date_created.toISOString(),
           date_modified: author.date_modified || null,
       }
-    }
-  })
+    };
+  });
+}
+
+function makeExpectedSearchRecipes(users, recipes, categories, query, comments=[]) {
+  const expectedRecipes = recipes
+    .filter(recipe => recipe.name.includes(query));
+
+  return expectedRecipes.map(recipe => {
+    const author = users.find(user => user.id === recipe.author_id)
+    const category = categories.find(category => category.id === recipe.category_id)
+    const number_of_comments = comments
+      .filter(comment => comment.recipe_id === recipe.id)
+      .length
+    return {
+      id: recipe.id,
+      name: recipe.name,
+      content: recipe.content,
+      date_created: recipe.date_created.toISOString(),
+      img_src: recipe.img_src,
+      number_of_comments,
+      category: category ? category.name : null,
+      author: {
+          id: author.id,
+          user_name: author.user_name,
+          date_created: author.date_created.toISOString(),
+          date_modified: author.date_modified || null,
+      }
+    };
+  });
 }
 
 
@@ -199,12 +199,11 @@ function makeExpectedCategory(category) {
   return {
     id: category.id,
     name: category.name,
-  }
-  
+  };
 }
 
 function makeExpectedComment(users, comment) {
-  const commentUser = users.find(user => user.id === comment.user_id)
+  const commentUser = users.find(user => user.id === comment.user_id);
   return {
     id: comment.id,
     content: comment.content,
@@ -216,12 +215,12 @@ function makeExpectedComment(users, comment) {
       date_created: commentUser.date_created.toISOString(),
       date_modified: commentUser.date_modified || null,
     }
-  }
+  };
 }
 
 function makeExpectedRecipeComments(users, recipeId, comments) {
   const expectedComments = comments
-    .filter(comment => comment.recipe_id === recipeId)
+    .filter(comment => comment.recipe_id === recipeId);
 
   return expectedComments.map(comment => {
     const commentUser = users.find(user => user.id === comment.user_id)
@@ -235,8 +234,8 @@ function makeExpectedRecipeComments(users, recipeId, comments) {
         date_created: commentUser.date_created.toISOString(),
         date_modified: commentUser.date_modified || null,
       }
-    }
-  })
+    };
+  });
 }
 
 function makeMaliciousRecipe(user, category) {
@@ -248,24 +247,24 @@ function makeMaliciousRecipe(user, category) {
     img_src: null,
     author_id: user.id,
     content: `Bad image <img src="https://url.to.file.which/does-not.exist" onerror="alert(document.cookie);">. But not <strong>all</strong> bad.`,
-  }
+  };
   const expectedRecipe = {
     ...makeExpectedRecipe([user], maliciousRecipe, [category]),
     name: 'Naughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
     content: `Bad image <img src="https://url.to.file.which/does-not.exist">. But not <strong>all</strong> bad.`,
-  }
+  };
   return {
     maliciousRecipe,
     expectedRecipe,
-  }
+  };
 }
 
 function makeRecipesFixtures() {
-  const testUsers = makeUsersArray()
-  const testCategories = makeCategoriesArray()
-  const testRecipes = makeRecipesArray(testUsers, testCategories)
-  const testComments = makeCommentsArray(testUsers, testRecipes)
-  return { testUsers, testRecipes, testCategories, testComments }
+  const testUsers = makeUsersArray();
+  const testCategories = makeCategoriesArray();
+  const testRecipes = makeRecipesArray(testUsers, testCategories);
+  const testComments = makeCommentsArray(testUsers, testRecipes);
+  return { testUsers, testRecipes, testCategories, testComments };
 }
 
 function cleanTables(db) {
@@ -291,14 +290,14 @@ function cleanTables(db) {
         trx.raw(`SELECT setval('enjoycook_categories_id_seq', 0)`),
       ])
     )
-  )
+  );
 }
 
 function seedUsers(db, users) {
   const preppedUsers = users.map(user => ({
     ...user,
     password: bcrypt.hashSync(user.password, 1)
-  }))
+  }));
   return db.into('enjoycook_users').insert(preppedUsers)
     .then(() =>
       // update the auto sequence to stay in sync
@@ -351,19 +350,19 @@ function seedCollectionsTables(db, users, recipes, categories, newRecipe, commen
 
 
 function seedMaliciousRecipe(db, user, recipe, category) {
-    return db.transaction(async trx => {
-        await seedUsers(trx, [user])
-        await seedCategories(trx, [category])
-        await trx.into('enjoycook_recipes').insert([recipe])
-    })
+  return db.transaction(async trx => {
+      await seedUsers(trx, [user])
+      await seedCategories(trx, [category])
+      await trx.into('enjoycook_recipes').insert([recipe])
+  })
 }
 
 function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
   const token = jwt.sign({ user_id: user.id }, secret, {
     subject: user.user_name,
     algorithm: 'HS256',
-  })
-  return `Bearer ${token}`
+  });
+  return `Bearer ${token}`;
 }
 
 module.exports = {
@@ -387,4 +386,4 @@ module.exports = {
   makeExpectedCollection,
   makeExpectedSearchRecipes,
   makeExpectedComment,
-}
+};

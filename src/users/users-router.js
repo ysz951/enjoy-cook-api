@@ -1,30 +1,30 @@
-const express = require('express')
-const path = require('path')
-const UsersService = require('./users-service')
-const { requireAuth } = require('../middleware/jwt-auth')
+const express = require('express');
+const path = require('path');
+const UsersService = require('./users-service');
+const { requireAuth } = require('../middleware/jwt-auth');
 
-const usersRouter = express.Router()
-const jsonBodyParser = express.json()
+const usersRouter = express.Router();
+const jsonBodyParser = express.json();
 
 usersRouter
   .post('/', jsonBodyParser, (req, res, next) => {
-    const { password, user_name } = req.body
+    const { password, user_name } = req.body;
 
     for (const field of ['user_name', 'password'])
       if (!req.body[field])
         return res.status(400).json({
           error: `Missing '${field}' in request body`
-        })
+        });
 
-    const passwordError = UsersService.validatePassword(password)
+    const passwordError = UsersService.validatePassword(password);
 
     if (passwordError)
-      return res.status(400).json({ error: passwordError })
+      return res.status(400).json({ error: passwordError });
     
-    const userNameError = UsersService.validateUserName(user_name)
+    const userNameError = UsersService.validateUserName(user_name);
 
     if (userNameError)
-      return res.status(400).json({error: userNameError})
+      return res.status(400).json({error: userNameError});
 
     UsersService.hasUserWithUserName(
       req.app.get('db'),
@@ -32,7 +32,7 @@ usersRouter
     )
       .then(hasUserWithUserName => {
         if (hasUserWithUserName)
-          return res.status(400).json({ error: `Username already taken` })
+          return res.status(400).json({ error: `Username already taken` });
 
         return UsersService.hashPassword(password)
           .then(hashedPassword => {
@@ -69,16 +69,16 @@ usersRouter
       .catch(next)
   })
   .post(requireAuth, jsonBodyParser, (req, res, next) => {
-    const { rec_id } = req.body
-    const newRecipe = { rec_id }
+    const { rec_id } = req.body;
+    const newRecipe = { rec_id };
 
     for (const [key, value] of Object.entries(newRecipe))
       if (value == null)
         return res.status(400).json({
           error: `Missing '${key}' in request body`
-        })
+        });
 
-    newRecipe.collector_id = req.user.id
+    newRecipe.collector_id = req.user.id;
 
     UsersService.insertRecipeForCollector(
       req.app.get('db'),
@@ -118,10 +118,10 @@ async function checkUserRecipeExists(req, res, next) {
     if (!rec)
       return res.status(404).json({
         error: `User doesn't exist`
-      })
-    next()
+      });
+    next();
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
-module.exports = usersRouter
+};
+module.exports = usersRouter;

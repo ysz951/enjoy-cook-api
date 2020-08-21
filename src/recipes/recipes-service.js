@@ -1,4 +1,4 @@
-const xss = require('xss')
+const xss = require('xss');
 
 const RecipesService = {
   getAllRecipes(db) {
@@ -98,7 +98,7 @@ const RecipesService = {
         date_created: new Date(author.date_created),
         date_modified: new Date(author.date_modified) || null
       },
-    }
+    };
   },
 
   serializeRecipeComment(comment) {
@@ -114,8 +114,8 @@ const RecipesService = {
         date_created: new Date(user.date_created),
         date_modified: new Date(user.date_modified) || null
       },
-    }
+    };
   },
-}
+};
 
-module.exports = RecipesService
+module.exports = RecipesService;

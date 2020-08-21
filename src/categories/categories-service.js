@@ -1,4 +1,4 @@
-const xss = require('xss')
+const xss = require('xss');
 
 const CategoriesService = {
   getAllCategories(db) {
@@ -77,15 +77,15 @@ const CategoriesService = {
               date_created: new Date(author.date_created),
               date_modified: new Date(author.date_modified) || null
           },
-      }
+      };
   },
 
   serializeCategory(category) {
       return {
           id: category.id,
           name: xss(category.name),
-      }
+      };
   },
-}
+};
 
-module.exports = CategoriesService
+module.exports = CategoriesService;

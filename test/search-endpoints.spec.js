@@ -1,28 +1,28 @@
-const knex = require('knex')
-const app = require('../src/app')
-const helpers = require('./test-helpers')
+const knex = require('knex');
+const app = require('../src/app');
+const helpers = require('./test-helpers');
 
 describe('Search Endpoints', function() {
-  let db
+  let db;
   const {
     testUsers,
     testRecipes,
     testCategories,
     testComments,
-  } = helpers.makeRecipesFixtures()
+  } = helpers.makeRecipesFixtures();
   before('make knex instance', () => {
     db = knex({
       client: 'pg',
       connection: process.env.TEST_DATABASE_URL,
-    })
-    app.set('db', db)
-  })
+    });
+    app.set('db', db);
+  });
 
-  after('disconnect from db', () => db.destroy())
+  after('disconnect from db', () => db.destroy());
 
-  before('cleanup', () => helpers.cleanTables(db))
+  before('cleanup', () => helpers.cleanTables(db));
 
-  afterEach('cleanup', () => helpers.cleanTables(db))
+  afterEach('cleanup', () => helpers.cleanTables(db));
 
   describe(`GET /api/search/:query`, () => {
     context('Given there are recipes in the database', () => {
@@ -34,7 +34,7 @@ describe('Search Endpoints', function() {
           testCategories,
           testComments,
         )
-      )
+      );
       it('responds with 200 and the specified recipe', () => {
         const query = 'ak'
         const expectedSearchRecipes = helpers.makeExpectedSearchRecipes(
@@ -48,8 +48,8 @@ describe('Search Endpoints', function() {
           .get(`/api/search/${query}`)
           .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(200, expectedSearchRecipes)
-      })
-    })
+      });
+    });
 
-  })
-})
+  });
+});

@@ -1,7 +1,7 @@
-const express = require('express')
-const CategoriesService = require('./categories-service')
+const express = require('express');
+const CategoriesService = require('./categories-service');
 
-const categoriesRouter = express.Router()
+const categoriesRouter = express.Router();
 
 categoriesRouter
   .route('/')
@@ -31,17 +31,17 @@ async function checkCategorieExists(req, res, next) {
     const categorie = await CategoriesService.getById(
         req.app.get('db'),
         req.params.category_id
-    )
+    );
     if (!categorie)
       return res.status(404).json({
         error: `Category doesn't exist`
-      })
+      });
 
     // res.categorie = categorie
-    next()
+    next();
   } catch (error) {
-    next(error)
+    next(error);
   }
 }
 
-module.exports = categoriesRouter
+module.exports = categoriesRouter;

@@ -1,4 +1,4 @@
-const xss = require('xss')
+const xss = require('xss');
 
 const CommentsService = {
   getAllComments(db) {
@@ -71,8 +71,8 @@ const CommentsService = {
         date_created: new Date(user.date_created),
         date_modified: new Date(user.date_modified) || null
       },
-    }
+    };
   }
-}
+};
 
-module.exports = CommentsService
+module.exports = CommentsService;

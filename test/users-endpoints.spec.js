@@ -1,31 +1,31 @@
-const knex = require('knex')
-const bcrypt = require('bcryptjs')
-const app = require('../src/app')
-const helpers = require('./test-helpers')
+const knex = require('knex');
+const bcrypt = require('bcryptjs');
+const app = require('../src/app');
+const helpers = require('./test-helpers');
 
 describe('Users Endpoints', function() {
-  let db
+  let db;
   const { 
     testUsers,
     testRecipes,
     testCategories,
-  } = helpers.makeRecipesFixtures()
-  const testUser = testUsers[0]
-  const testRecipe = testRecipes[0]
-  const newRecipe = {rec_id: testRecipe.id, collector_id: testUser.id}
+  } = helpers.makeRecipesFixtures();
+  const testUser = testUsers[0];
+  const testRecipe = testRecipes[0];
+  const newRecipe = {rec_id: testRecipe.id, collector_id: testUser.id};
   before('make knex instance', () => {
     db = knex({
       client: 'pg',
       connection: process.env.TEST_DATABASE_URL,
-    })
-    app.set('db', db)
-  })
+    });
+    app.set('db', db);
+  });
 
-  after('disconnect from db', () => db.destroy())
+  after('disconnect from db', () => db.destroy());
 
-  before('cleanup', () => helpers.cleanTables(db))
+  before('cleanup', () => helpers.cleanTables(db));
 
-  afterEach('cleanup', () => helpers.cleanTables(db))
+  afterEach('cleanup', () => helpers.cleanTables(db));
 
   describe(`POST /api/users`, () => {
     
@@ -34,7 +34,7 @@ describe('Users Endpoints', function() {
         const newUser = {
           user_name: 'test user_name',
           password: '11AAaa!!',
-        }
+        };
         return supertest(app)
           .post('/api/users')
           .send(newUser)
@@ -66,9 +66,9 @@ describe('Users Endpoints', function() {
                 expect(compareMatch).to.be.true
               })
           )
-      })
-    })
-  })
+      });
+    });
+  });
   describe(`GET/api/users/collections`, () => {
     beforeEach('insert collections', () =>
       helpers.seedCollectionsTables(
@@ -78,7 +78,7 @@ describe('Users Endpoints', function() {
         testCategories, 
         newRecipe
       )
-    )
+    );
     it('responds with 200 and the specified collection', () => {
       const recipeId = 1
       const expectedCollection = helpers.makeExpectedCollection(testRecipes, recipeId)
@@ -86,6 +86,6 @@ describe('Users Endpoints', function() {
         .get(`/api/users/collections`)
         .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
         .expect(200, expectedCollection)
-    })
-  })
-})
+    });
+  });
+});

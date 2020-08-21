@@ -1,6 +1,6 @@
-const express = require('express')
-const RecipesService = require('./recipes-service')
-const recipesRouter = express.Router()
+const express = require('express');
+const RecipesService = require('./recipes-service');
+const recipesRouter = express.Router();
 
 recipesRouter
   .route('/')
@@ -44,13 +44,13 @@ async function checkRecipeExists(req, res, next) {
     if (!recipe)
       return res.status(404).json({
         error: `Recipe doesn't exist`
-      })
+      });
 
-    res.recipe = recipe
-    next()
+    res.recipe = recipe;
+    next();
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
-module.exports = recipesRouter
+module.exports = recipesRouter;
