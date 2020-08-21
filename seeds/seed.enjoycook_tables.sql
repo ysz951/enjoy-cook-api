@@ -22,20 +22,20 @@ VALUES
 
 INSERT INTO enjoycook_recipes (name, content, img_src, author_id, category_id)
 VALUES
-  ('Stew Chicken', 'Corporis accusamus placeat quas non voluptas. Harum fugit molestias qui. Velit ex animi reiciendis quasi. Suscipit totam delectus ut voluptas aut qui rerum. Non veniam eius molestiae rerum quam.\n \rUnde qui aperiam praesentium alias. Aut temporibus id quidem recusandae voluptatem ut eum. Consequatur asperiores et in quisquam corporis maxime dolorem soluta. Et officiis id est quia sunt qui iste reiciendis saepe. Ut aut doloribus minus non nisi vel corporis. Veritatis mollitia et molestias voluptas neque aspernatur reprehenderit.\n \rMaxime aut reprehenderit mollitia quia eos sit fugiat exercitationem. Minima dolore soluta. Quidem fuga ut sit voluptas nihil sunt aliquam dignissimos. Ex autem nemo quisquam voluptas consequuntur et necessitatibus minima velit. Consequatur quia quis tempora minima. Aut qui dolor et dignissimos ut repellat quas ad.', 'https://www.publicdomainpictures.net/pictures/370000/velka/chicken-and-vegetables-in-crock-pot.jpg', 1, 3),
-  ( 'Pork Meat Ball Soup', 'Eos laudantium quia ab blanditiis temporibus necessitatibus. Culpa et voluptas ut sed commodi. Est qui ducimus id. Beatae sint aspernatur error ullam quae illum sint eum. Voluptas corrupti praesentium soluta cumque illo impedit vero omnis nisi.\n \rNam sunt reprehenderit soluta quis explicabo impedit id. Repudiandae eligendi libero ad ut dolores. Laborum nihil sint et labore iusto reiciendis cum. Repellat quos recusandae natus nobis ullam autem veniam id.\n \rEsse blanditiis neque tempore ex voluptate commodi nemo. Velit sapiente at placeat eveniet ut rem. Quidem harum ut dignissimos. Omnis pariatur quas aperiam. Quasi voluptas qui nulla. Iure quas veniam aut quia et.', 'https://upload.wikimedia.org/wikipedia/commons/b/be/Pork_Meat_Ball_Soup.jpg',2, null),
-  ('Toast', 'Quidem harum ut dignissimos.','https://www.publicdomainpictures.net/pictures/20000/velka/buttered-toast.jpg',3, 1),
-  ( 'Salad', 'Laborum nihil sint et labore iusto reiciendis cum. Repellat quos recusandae natus nobis ullam autem veniam id.\n \rEsse blanditiis neque tempore ex voluptate commodi nemo. Velit sapiente at placeat eveniet ut rem. Quidem harum ut dignissimos. Omnis pariatur quas aperiam. Quasi voluptas qui nulla. Iure quas veniam aut quia et.', 'https://www.needpix.com/file_download.php?url=https://storage.needpix.com/thumbs/salad-4116541_1280.jpg',2, 2);
+  ('Stew Chicken', 'Remove any skin from the chicken and wash it with water. Drain the water away and season with salt, browning sauce, garlic, green onion and rice wine. Fried the chicken for three minutes to make all sides golden. Add enough water about cover the chicken in the pot. Put the cover on the pot and cook for about 20 minutes', 'https://www.publicdomainpictures.net/pictures/370000/velka/chicken-and-vegetables-in-crock-pot.jpg', 1, 3),
+  ( 'Pork Meat Ball Soup', 'Combine the cinnamon, cloves, salt and pepper with the pork in a bowl. In a large saucepan, brown the onion in the butter. Add the carrots and garlic and cook for 2 minutes. Add the broth and potatoes and bring to a boil. Shape each ball with about 15 ml (1 tablespoon) of the meat mixture and add to the simmering broth. Simmer gently, covered, for about 30 minutes or until the vegetables are tender. Add the parsley and adjust the seasoning.', 'https://upload.wikimedia.org/wikipedia/commons/b/be/Pork_Meat_Ball_Soup.jpg',2, null),
+  ('Toast', 'Prepare the bread, toaster and butter. Put bread in toaster. Turn the toaster onto 2 to 3 minutes. Check out whether the bread is toasted. Butter the toasted bread.','https://www.publicdomainpictures.net/pictures/20000/velka/buttered-toast.jpg',3, 1),
+  ( 'Salad', 'Basic salad ingredients include lettuce, tomatoes, cucumber, carrots, green onions, cheese, croutons, green pepper. Wash the ingredients and put them in a bowl. Serve with your favorite salad dressing (ranch, honey mustard etc.) and homemade croutons', 'https://www.needpix.com/file_download.php?url=https://storage.needpix.com/thumbs/salad-4116541_1280.jpg',2, 2);
         
 INSERT INTO enjoycook_comments (content, recipe_id, user_id) 
 VALUES
-  ('Repudiandae eligendi libero ad ut dolores. Laborum nihil sint et labore iusto reiciendis cum. Repellat quos recusandae natus nobis ullam autem veniam id.\n \rEsse blanditiis neque tempore ex voluptate commodi nemo. Velit sapiente at placeat eveniet ut rem. Quidem harum ut dignissimos. Omnis pariatur quas aperiam. Quasi voluptas qui nulla. Iure quas veniam aut quia et.', 1, 1),
-  ('Veritatis mollitia et molestias voluptas neque aspernatur reprehenderit.\n \rMaxime aut reprehenderit mollitia quia eos sit fugiat exercitationem. Minima dolore soluta. Quidem fuga ut sit voluptas nihil sunt aliquam dignissimos. Ex autem nemo quisquam voluptas consequuntur et necessitatibus minima velit. Consequatur quia quis tempora minima. Aut qui dolor et dignissimos ut repellat quas ad.', 2, 2),
-  ('Ex autem nemo quisquam voluptas consequuntur et necessitatibus minima velit. Consequatur quia quis tempora minima. Aut qui dolor et dignissimos ut repellat quas ad.', 1, 2),
-  ('eligendi libero  Laborum nihil sint et labore iusto reic ad ut dolores. Laborum nihil sint r et necessitatibus minima velit. Consequatur quia quis ', 3, 3),
-  ('eligendi libero ad ut dolores. Laborum nihil sint', 3, 1),
- ('eligendi libero ad r et necessitatibus minima velit. Consequatur quia quis  ut dolores. Laborum nihil sint', 4, 1),
- ('eligendi   laudantium quia ab blanditiis temporibus necessit libero ad ut dolores. Laborum nihil sint', 4, 2);
+  ('I havent tried this yet, but it looks great. I am an experienced cook and can usually tell from from the ingredients if something is going to be good.', 1, 1),
+  ('Hi! This soup sounds delicious. I usually make the meatballs with pork and beef 50/50.', 2, 2),
+  ('Wow, never tried fried the chicken before stewing it... sounds great.', 1, 2),
+  ('How to make a shape (like heart) on the bread ?', 3, 3),
+  ('Add some silk noodles in the soup will make it more delicious!', 2, 1),
+  ('Salad is always a good choice for better health.', 4, 1),
+  ('Looks beautiful. I cant wait to make it immediately', 4, 2);
 INSERT INTO enjoycook_recipes_collectors (rec_id, collector_id)
 VALUES
   (1, 1),
