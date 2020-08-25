@@ -30,8 +30,8 @@ VALUES
 INSERT INTO enjoycook_comments (content, recipe_id, user_id) 
 VALUES
   ('I havent tried this yet, but it looks great. I am an experienced cook and can usually tell from from the ingredients if something is going to be good.', 1, 1),
-  ('Hi! This soup sounds delicious. I usually make the meatballs with pork and beef 50/50.', 2, 2),
-  ('Wow, never tried fried the chicken before stewing it... sounds great.', 1, 2),
+  ('Hi! This soup sounds delicious. I usually make the meatballs with pork and beef 50/50.', 2, 3),
+  ('Wow, never tried fried the chicken before stewing it... sounds great.', 1, 3),
   ('How to make a shape (like heart) on the bread ?', 3, 3),
   ('Add some silk noodles in the soup will make it more delicious!', 2, 1),
   ('Salad is always a good choice for better health.', 4, 1),
