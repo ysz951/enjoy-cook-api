@@ -52,6 +52,17 @@ const RecipesService = {
       .first()
   },
 
+  insertRecipe(db, newRecipe) {
+    return db
+      .insert(newRecipe)
+      .into('enjoycook_recipes')
+      .returning('*')
+      .then(([recipe]) => recipe)
+      .then(recipe =>
+        RecipesService.getById(db, recipe.id)
+      )
+  },
+
   getCommentsForRecipe(db, recipe_id) {
     return db
       .from('enjoycook_comments AS comm')

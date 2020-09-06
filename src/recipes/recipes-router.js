@@ -1,6 +1,9 @@
 const express = require('express');
 const RecipesService = require('./recipes-service');
+const path = require('path');
 const recipesRouter = express.Router();
+const { requireAuth } = require('../middleware/jwt-auth');
+const jsonBodyParser = express.json();
 
 recipesRouter
   .route('/')
@@ -11,6 +14,32 @@ recipesRouter
       })
       .catch(next)
   })
+  .post(requireAuth, jsonBodyParser, (req, res, next) => {
+    const { name, content } = req.body;
+    const newRecipe = { name, content };
+
+    for (const [key, value] of Object.entries(newRecipe))
+      if (value == null)
+        return res.status(400).json({
+          error: `Missing '${key}' in request body`
+        });
+    newRecipe.author_id = req.user.id;
+    newRecipe.category_id = req.body.category_id;
+    newRecipe.img_src = req.body.img_src;
+    // newRecipe.img_src = 
+    console.log(newRecipe);
+    RecipesService.insertRecipe(
+      req.app.get('db'),
+      newRecipe
+    )
+      .then(recipe => {
+        res
+          .status(201)
+          .location(path.posix.join(req.originalUrl, `/${recipe.id}`))
+          .json(RecipesService.serializeRecipe(recipe))
+      })
+      .catch(next)
+    })
 
 recipesRouter
   .route('/:recipe_id')
