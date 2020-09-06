@@ -26,8 +26,6 @@ recipesRouter
     newRecipe.author_id = req.user.id;
     newRecipe.category_id = req.body.category_id;
     newRecipe.img_src = req.body.img_src;
-    // newRecipe.img_src = 
-    console.log(newRecipe);
     RecipesService.insertRecipe(
       req.app.get('db'),
       newRecipe
@@ -40,6 +38,12 @@ recipesRouter
       })
       .catch(next)
     })
+
+// recipesRouter
+//   .route('/author')
+//   .get(requireAuth, (req, res, next) => {
+//     RecipesService
+//   })
 
 recipesRouter
   .route('/:recipe_id')

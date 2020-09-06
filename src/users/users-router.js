@@ -56,6 +56,20 @@ usersRouter
       })
       .catch(next)
   })
+
+usersRouter
+  .route('/recipes')
+  .get(requireAuth, (req, res, next) => {
+      UsersService.getAllRecipesForUser(
+      req.app.get('db'),
+      req.user.id
+    )
+      .then(recipes => {
+        res.json(recipes.map(UsersService.serializeRecipe))
+      })
+      .catch(next)
+})
+
 usersRouter
   .route('/collections')
   .get(requireAuth, (req, res, next) => {
@@ -88,7 +102,7 @@ usersRouter
         res
           .status(201)
           .location(path.posix.join(req.originalUrl, `/${collection.rec_id}`))
-          .json(UsersService.serializeRecipe(collection))
+          .json(UsersService.serializeCollection(collection))
       })
       .catch(next)
     })
