@@ -59,10 +59,10 @@ usersRouter
 
 usersRouter
   .route('/recipes')
-  .get((req, res, next) => {
+  .get(requireAuth, (req, res, next) => {
       UsersService.getAllRecipesForUser(
       req.app.get('db'),
-      3
+      req.user.id
     )
       .then(recipes => {
         res.json(recipes.map(UsersService.serializeRecipe))
@@ -70,6 +70,20 @@ usersRouter
       .catch(next)
 })
 
+usersRouter
+  .route('/recipes/:rec_id')
+  .delete(requireAuth, jsonBodyParser, (req, res, next) => {
+    UsersService.deleteRecipeForAuthor(
+      req.app.get('db'),
+      req.user.id,
+      req.params.rec_id
+    )
+      .then(numRowsAffected => {
+        res.status(204).end()
+      })
+      .catch(next)
+  })
+  
 usersRouter
   .route('/collections/recipes')
   .get(requireAuth, (req, res, next) => {

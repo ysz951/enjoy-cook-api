@@ -60,6 +60,14 @@ const UsersService = {
       .select('rec_id')
       .where('collector_id', collector_id).andWhere('rec_id', rec_id)
   },
+
+  deleteRecipeForAuthor(db, author_id, rec_id) {
+    console.log('ok')
+    return db('enjoycook_recipes')
+      .where('id', rec_id).andWhere({author_id})
+      .delete()
+  },
+
   deleteRecipeForuser(db, collector_id, rec_id) {
     return db('enjoycook_recipes_collectors')
       .where('collector_id', collector_id).andWhere('rec_id', rec_id)
