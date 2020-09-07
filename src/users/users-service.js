@@ -4,8 +4,7 @@ const xss = require('xss');
 const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/;
 
 const UsersService = {
-
-  getAllRecipesForUser(db, user_id) {
+  getAllRecipes(db) {
     return db
       .from('enjoycook_recipes AS rec')
       .select(
@@ -48,6 +47,10 @@ const UsersService = {
           'cate.id'
       )
       .groupBy('rec.id', 'usr.id','cate.id')
+  },
+
+  getAllRecipesForUser(db, user_id) {
+    return UsersService.getAllRecipes(db)
       .where('usr.id', user_id)
   },
 
@@ -62,7 +65,18 @@ const UsersService = {
       .where('collector_id', collector_id).andWhere('rec_id', rec_id)
       .delete()
   },
+
   getRecipesForCollector(db, collector_id) {
+    return UsersService.getAllRecipes(db)
+      .join(
+        'enjoycook_recipes_collectors AS erc',
+        'rec.id',
+        'erc.rec_id'
+      )
+      .where('erc.collector_id', collector_id)
+  },
+
+  getRecipeSetForCollector(db, collector_id) {
     return db
       .from('enjoycook_recipes_collectors')
       .select('rec_id')

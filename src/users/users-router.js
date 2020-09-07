@@ -59,10 +59,10 @@ usersRouter
 
 usersRouter
   .route('/recipes')
-  .get(requireAuth, (req, res, next) => {
+  .get((req, res, next) => {
       UsersService.getAllRecipesForUser(
       req.app.get('db'),
-      req.user.id
+      3
     )
       .then(recipes => {
         res.json(recipes.map(UsersService.serializeRecipe))
@@ -71,14 +71,27 @@ usersRouter
 })
 
 usersRouter
-  .route('/collections')
+  .route('/collections/recipes')
   .get(requireAuth, (req, res, next) => {
       UsersService.getRecipesForCollector(
       req.app.get('db'),
       req.user.id
     )
       .then(collections => {
-        res.json(collections)
+        res.json(collections.map(UsersService.serializeRecipe))
+      })
+      .catch(next)
+  })
+
+usersRouter
+  .route('/collections/recipe_set')
+  .get(requireAuth, (req, res, next) => {
+      UsersService.getRecipeSetForCollector(
+      req.app.get('db'),
+      req.user.id
+    )
+      .then(collections => {
+        res.json(collections.map(UsersService.serializeCollection))
       })
       .catch(next)
   })
@@ -107,7 +120,7 @@ usersRouter
       .catch(next)
     })
 usersRouter
-  .route('/collections/:rec_id')
+  .route('/collections/recipe_set/:rec_id')
   .all(requireAuth)
   .all(checkUserRecipeExists)
   .delete(jsonBodyParser, (req, res, next) => {
