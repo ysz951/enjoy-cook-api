@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const app = require('../src/app');
 const helpers = require('./test-helpers');
 
-describe('Users Endpoints', function() {
+describe.only('Users Endpoints', function() {
   let db;
   const { 
     testUsers,
@@ -69,7 +69,7 @@ describe('Users Endpoints', function() {
       });
     });
   });
-  describe(`GET/api/users/collections`, () => {
+  describe(`GET/api/users/collections/recipe_set`, () => {
     beforeEach('insert collections', () =>
       helpers.seedCollectionsTables(
         db, 
@@ -83,7 +83,7 @@ describe('Users Endpoints', function() {
       const recipeId = 1
       const expectedCollection = helpers.makeExpectedCollection(testRecipes, recipeId)
       return supertest(app)
-        .get(`/api/users/collections`)
+        .get(`/api/users/collections/recipe_set`)
         .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
         .expect(200, expectedCollection)
     });
