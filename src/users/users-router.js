@@ -80,7 +80,6 @@ usersRouter
   .patch(jsonBodyParser, (req, res,next) => {
     const { name, content, img_src } = req.body;
     const newRecipe = { name, content, img_src };
-    console.log('patch')
     for (const [key, value] of Object.entries(newRecipe))
       if (value == null)
         return res.status(400).json({
@@ -186,9 +185,8 @@ async function checkAuthorRecipeExists(req, res, next) {
     )
     if (!rec)
       return res.status(404).json({
-        error: `User doesn't exist`
+        error: `Recipe doesn't exist`
       });
-    console.log(rec.author.id, req.user.id)
     if (rec.author.id !== req.user.id)
       return res.status(404).json({
         error: `No authorization`

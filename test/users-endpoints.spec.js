@@ -69,6 +69,41 @@ describe('Users Endpoints', function() {
       });
     });
   });
+  describe(`GET /api/users/recipes/:recipe_id`, () => {
+    beforeEach('insert recipes', () =>
+      helpers.seedRecipesTables(
+        db,
+        testUsers,
+        testRecipes,
+        testCategories,
+      )
+    );
+    context(`Given no recipes`, () => {
+      it(`responds with 404`, () => {
+        const recipeId = 2;
+        return supertest(app)
+          .get(`/api/users/recipes/${recipeId}`)
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+          .expect(404, { error: `Recipe doesn't exist` })
+      });
+    });
+
+    context('Given there are recipes in the database', () => {
+      it('responds with 200 and the specified recipe', () => {
+        const recipeId = 1;
+        const expectedRecipe = helpers.makeExpectedRecipe(
+          testUsers,
+          testRecipes[recipeId - 1],
+          testCategories,
+        );
+
+        return supertest(app)
+          .get(`/api/users/recipes/${recipeId}`)
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+          .expect(200, expectedRecipe)
+      });
+    });
+  });
   describe(`GET/api/users/collections/recipe_set`, () => {
     beforeEach('insert collections', () =>
       helpers.seedCollectionsTables(
