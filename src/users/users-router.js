@@ -72,7 +72,34 @@ usersRouter
 
 usersRouter
   .route('/recipes/:rec_id')
-  .delete(requireAuth, jsonBodyParser, (req, res, next) => {
+  .all(requireAuth)
+  .all(checkAuthorRecipeExists)
+  .get(jsonBodyParser, (req, res,next) => {
+    res.json(UsersService.serializeRecipe(res.rec))
+  })
+  .patch(jsonBodyParser, (req, res,next) => {
+    const { name, content, img_src } = req.body;
+    const newRecipe = { name, content, img_src };
+    console.log('patch')
+    for (const [key, value] of Object.entries(newRecipe))
+      if (value == null)
+        return res.status(400).json({
+          error: `Missing '${key}' in request body`
+        });
+    newRecipe.author_id = req.user.id;
+    newRecipe.category_id = req.body.category_id;
+    UsersService.updateRecipeForAuthor(
+      req.app.get('db'),
+      req.user.id,
+      req.params.rec_id,
+      newRecipe
+    )
+    .then(numRowsAffected => {
+      res.status(204).end()
+    })
+    .catch(next)
+  })
+  .delete(jsonBodyParser, (req, res, next) => {
     UsersService.deleteRecipeForAuthor(
       req.app.get('db'),
       req.user.id,
@@ -149,6 +176,30 @@ usersRouter
       })
       .catch(next)
   })
+
+async function checkAuthorRecipeExists(req, res, next) {
+  try {
+    const rec = await UsersService.getRecipeForUserById(
+      req.app.get('db'),
+      req.user.id,
+      req.params.rec_id
+    )
+    if (!rec)
+      return res.status(404).json({
+        error: `User doesn't exist`
+      });
+    console.log(rec.author.id, req.user.id)
+    if (rec.author.id !== req.user.id)
+      return res.status(404).json({
+        error: `No authorization`
+    });
+    res.rec = rec;
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
 async function checkUserRecipeExists(req, res, next) {
   try {
     const rec = await UsersService.getRecipeForUser(
@@ -160,6 +211,10 @@ async function checkUserRecipeExists(req, res, next) {
       return res.status(404).json({
         error: `User doesn't exist`
       });
+    if (rec.collector_id !== req.user.id)
+      return res.status(404).json({
+        error: `No authorization`
+    });
     next();
   } catch (error) {
     next(error);

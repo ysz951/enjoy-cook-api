@@ -14,6 +14,7 @@ const UsersService = {
         'rec.content',
         'rec.img_src',
         'cate.name AS category',
+        'cate.id AS category_id',
         db.raw(
           `count(DISTINCT comm) AS number_of_comments`
         ),
@@ -54,11 +55,18 @@ const UsersService = {
       .where('usr.id', user_id)
   },
 
+  getRecipeForUserById(db, user_id, rec_id) {
+    return UsersService.getAllRecipes(db)
+      .where('usr.id', user_id).andWhere('rec.id', rec_id)
+      .first()
+  },
+
   getRecipeForUser(db, collector_id, rec_id) {
     return db
       .from('enjoycook_recipes_collectors')
-      .select('rec_id')
+      .select('*')
       .where('collector_id', collector_id).andWhere('rec_id', rec_id)
+      .first()
   },
 
   deleteRecipeForAuthor(db, author_id, rec_id) {
@@ -66,6 +74,12 @@ const UsersService = {
     return db('enjoycook_recipes')
       .where('id', rec_id).andWhere({author_id})
       .delete()
+  },
+
+  updateRecipeForAuthor(db, author_id, rec_id, updateRecipe) {
+    return db('enjoycook_recipes')
+    .where('id', rec_id).andWhere({author_id})
+      .update(updateRecipe)
   },
 
   deleteRecipeForuser(db, collector_id, rec_id) {
@@ -96,9 +110,7 @@ const UsersService = {
       .insert(newRecipe)
       .into('enjoycook_recipes_collectors')
       .returning('*')
-      .then(rows => {
-        return rows[0]
-      })
+      .then(([rows]) => rows)
   },
 
   hasUserWithUserName(db, user_name) {
@@ -149,6 +161,7 @@ const UsersService = {
       name: xss(recipe.name),
       content: xss(recipe.content),
       category: xss(recipe.category) || null,
+      category_id: recipe.category_id || null,
       img_src: xss(recipe.img_src) || null,
       date_created: new Date(recipe.date_created),
       number_of_comments: Number(recipe.number_of_comments) || 0,

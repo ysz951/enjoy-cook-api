@@ -129,6 +129,7 @@ function makeExpectedRecipe(users, recipe, categories, comments=[]) {
     img_src: recipe.img_src,
     number_of_comments,
     category: category ? category.name : null,
+    category_id: category ? category.id : null,
     author: {
       id: author.id,
       user_name: author.user_name,
@@ -156,6 +157,7 @@ function makeExpectedCategoryRecipes(users, recipes, categories, categoryId, com
       img_src: recipe.img_src,
       number_of_comments,
       category: category ? category.name : null,
+      category_id: category ? category.id : null,
       author: {
           id: author.id,
           user_name: author.user_name,
@@ -184,6 +186,7 @@ function makeExpectedSearchRecipes(users, recipes, categories, query, comments=[
       img_src: recipe.img_src,
       number_of_comments,
       category: category ? category.name : null,
+      category_id: category ? category.id : null,
       author: {
           id: author.id,
           user_name: author.user_name,

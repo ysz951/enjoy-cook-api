@@ -10,6 +10,7 @@ const SearchService = {
         'rec.content',
         'rec.img_src',
         'cate.name AS category',
+        'cate.id AS category_id',
         db.raw(
           `count(DISTINCT comm) AS number_of_comments`
         ),
@@ -53,6 +54,7 @@ const SearchService = {
         content: xss(recipe.content),
         img_src: xss(recipe.img_src) || null,
         category: xss(recipe.category) || null,
+        category_id: recipe.category_id || null,
         date_created: new Date(recipe.date_created),
         number_of_comments: Number(recipe.number_of_comments) || 0,
         author: {
