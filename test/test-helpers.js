@@ -77,6 +77,7 @@ function makeCommentsArray(users, recipes) {
       content: 'First test comment!',
       recipe_id: recipes[0].id,
       user_id: users[0].id,
+      parentcomment_id: null,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
     {
@@ -84,6 +85,7 @@ function makeCommentsArray(users, recipes) {
       content: 'Second test comment!',
       recipe_id: recipes[0].id,
       user_id: users[1].id,
+      parentcomment_id: null,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
     {
@@ -91,6 +93,7 @@ function makeCommentsArray(users, recipes) {
       content: 'Fifth test comment!',
       recipe_id: recipes[recipes.length - 1].id,
       user_id: users[0].id,
+      parentcomment_id: null,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
     {
@@ -98,6 +101,15 @@ function makeCommentsArray(users, recipes) {
       content: 'Sixth test comment!',
       recipe_id: recipes[recipes.length - 1].id,
       user_id: users[1].id,
+      parentcomment_id: null,
+      date_created: new Date('2029-01-22T16:28:32.615Z'),
+    },
+    {
+      id: 5,
+      content: 'Sixth test comment!',
+      recipe_id: recipes[0].id,
+      user_id: users[1].id,
+      parentcomment_id: 1,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
   ];
@@ -223,7 +235,7 @@ function makeExpectedComment(users, comment) {
 
 function makeExpectedRecipeComments(users, recipeId, comments) {
   const expectedComments = comments
-    .filter(comment => comment.recipe_id === recipeId);
+    .filter(comment => comment.recipe_id === recipeId && comment.parentcomment_id == null);
 
   return expectedComments.map(comment => {
     const commentUser = users.find(user => user.id === comment.user_id)
@@ -332,7 +344,6 @@ function seedRecipesTables(db, users, recipes, categories, comments=[]) {
       `SELECT setval('enjoycook_recipes_id_seq', ?)`,
       [recipes[recipes.length - 1].id],
     )
-    
     // only insert comments if there are some, also update the sequence counter
     if (comments.length) {
       await trx.into('enjoycook_comments').insert(comments)

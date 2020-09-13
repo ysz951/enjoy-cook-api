@@ -27,15 +27,27 @@ VALUES
   ('Toast', 'Prepare the bread, toaster and butter. Put bread in toaster. Turn the toaster onto 2 to 3 minutes. Check out whether the bread is toasted. Butter the toasted bread.','https://www.publicdomainpictures.net/pictures/20000/velka/buttered-toast.jpg',3, 1),
   ( 'Salad', 'Basic salad ingredients include lettuce, tomatoes, cucumber, carrots, green onions, cheese, croutons, green pepper. Wash the ingredients and put them in a bowl. Serve with your favorite salad dressing (ranch, honey mustard etc.) and homemade croutons', 'https://www.needpix.com/file_download.php?url=https://storage.needpix.com/thumbs/salad-4116541_1280.jpg',2, 2);
         
-INSERT INTO enjoycook_comments (content, recipe_id, user_id) 
+INSERT INTO enjoycook_comments (content, recipe_id, user_id, parentcomment_id) 
 VALUES
-  ('I havent tried this yet, but it looks great. I am an experienced cook and can usually tell from from the ingredients if something is going to be good.', 1, 1),
-  ('Hi! This soup sounds delicious. I usually make the meatballs with pork and beef 50/50.', 2, 3),
-  ('Wow, never tried fried the chicken before stewing it... sounds great.', 1, 3),
-  ('How to make a shape (like heart) on the bread ?', 3, 3),
-  ('Add some silk noodles in the soup will make it more delicious!', 2, 1),
-  ('Salad is always a good choice for better health.', 4, 1),
-  ('Looks beautiful. I cant wait to make it immediately', 4, 2);
+  ('I havent tried this yet, but it looks great. I am an experienced cook and can usually tell from from the ingredients if something is going to be good.', 1, 1, null),
+  ('Hi! This soup sounds delicious. I usually make the meatballs with pork and beef 50/50.', 2, 3, null),
+  ('Wow, never tried fried the chicken before stewing it... sounds great.', 1, 3, null),
+  ('How to make a shape (like heart) on the bread ?', 3, 3, null),
+  ('Add some silk noodles in the soup will make it more delicious!', 2, 1, null),
+  ('Salad is always a good choice for better health.', 4, 1, null),
+  ('Looks beautiful. I cant wait to make it immediately', 4, 2, null),
+  ('Try to clip a heart-like tinfoil and put it on the bread', 3, 1, 4),
+  ('Cant agree more', 2, 2, 2),
+  ('Hi, which dressing do you use?', 4, 3, 6),
+  ('Good idea. Thank you', 3, 3, 8);
+
+--INSERT INTO enjoycook_replies (content, comment_id, user_id) 
+--VALUES
+--  ('Try to clip a heart-like tinfoil and put it on the bread', 4, 1),
+--  ('Cant agree more', 2, 2),
+--  ('Hi, which dressing do you use?', 7, 3),
+--  ('Looks beautiful. I cant wait to make it immediately', 4, 2);
+
 INSERT INTO enjoycook_recipes_collectors (rec_id, collector_id)
 VALUES
   (1, 1),

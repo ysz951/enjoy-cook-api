@@ -85,13 +85,12 @@ const RecipesService = {
           ) AS "user"`
         )
       )
-      .where('comm.recipe_id', recipe_id)
+      .where('comm.recipe_id', recipe_id).andWhere('comm.parentcomment_id', null)
       .leftJoin(
         'enjoycook_users AS usr',
         'comm.user_id',
         'usr.id',
       )
-      .groupBy('comm.id', 'usr.id')
   },
 
   serializeRecipe(recipe) {
