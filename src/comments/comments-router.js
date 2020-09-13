@@ -74,6 +74,18 @@ commentsRouter
       })
       .catch(next)
   })
+  commentsRouter
+  .route('/replies/:comment_id')
+  .all(checkCommentExists)
+  .get((req, res, next) => {
+      const reply = CommentsService
+        .getByParentId(req.app.get('db'), req.params.comment_id)
+        .then((comment) => {
+          res.json(comment ? CommentsService.serializeComment(comment) : null);
+        });
+      
+  })
+  
 async function checkCommentExists(req, res, next) {
   try {
     const comment = await CommentsService.getById(
@@ -84,8 +96,8 @@ async function checkCommentExists(req, res, next) {
       return res.status(404).json({
         error: `Comment doesn't exist`
       })
-
-    res.comment = comment
+    res.comment = comment;
+    // console.log(comment)
     next();
   } catch (error) {
     next(error);

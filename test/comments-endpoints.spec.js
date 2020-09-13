@@ -3,7 +3,7 @@ const app = require('../src/app');
 const helpers = require('./test-helpers');
 const { expect } = require('chai');
 
-describe('Comments Endpoints', function() {
+describe.only('Comments Endpoints', function() {
   let db;
 
   const {
@@ -227,6 +227,32 @@ describe('Comments Endpoints', function() {
               .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
               .expect(expectedComment)
           )
+      });
+    });
+  });
+  describe.only(`GET /api/comments/replies/comment_id`, () => {
+    context('Given there are replies in the database', () => {
+      beforeEach('insert comments', () =>
+        helpers.seedRecipesTables(
+          db,
+          testUsers,
+          testRecipes,
+          testCategories,
+          testComments,
+        )
+      );
+      it('responds with 200 and the specified reply', () => {
+        const parentId = 1;
+        const expectedComment = 
+          helpers.makeExpectedCommentByParentId(
+            testUsers,
+            parentId,
+            testComments,
+          );
+        
+        return supertest(app)
+          .get(`/api/comments/replies/${parentId}`)
+          .expect(200, expectedComment)
       });
     });
   });

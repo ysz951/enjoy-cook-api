@@ -2,7 +2,7 @@ const knex = require('knex');
 const app = require('../src/app');
 const helpers = require('./test-helpers');
 
-describe.only('Recipes Endpoints', function() {
+describe('Recipes Endpoints', function() {
   let db;
   const {
     testUsers,
@@ -198,7 +198,7 @@ describe.only('Recipes Endpoints', function() {
     });
   });
 
-  describe.only(`GET /api/recipes/:recipe_id/comments`, () => {
+  describe(`GET /api/recipes/:recipe_id/comments`, () => {
     context(`Given no recipes`, () => {
       it(`responds with 404`, () => {
         const recipeId = 123456

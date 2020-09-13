@@ -35,6 +35,42 @@ const CommentsService = {
       .first()
   },
 
+  getByParentId(db, parentId){
+    return db
+      .from('enjoycook_comments AS reply')
+      .select(
+        'reply.id',
+        'reply.content',
+        'reply.date_created',
+        'reply.recipe_id',
+        db.raw(
+          `json_strip_nulls(
+            row_to_json(
+              (SELECT tmp FROM (
+                SELECT
+                  usr.id,
+                  usr.user_name,
+                  usr.date_created,
+                  usr.date_modified
+              ) tmp)
+            )
+          ) AS "user"`
+        )
+      )
+      .join(
+        'enjoycook_comments AS comm',
+        'reply.parentcomment_id',
+        'comm.id'
+      )
+      .leftJoin(
+        'enjoycook_users AS usr',
+        'reply.user_id',
+        'usr.id',
+      )
+      .where('comm.id', parentId)
+      .first()
+  },
+
   insertComment(db, newComment) {
     return db
       .insert(newComment)

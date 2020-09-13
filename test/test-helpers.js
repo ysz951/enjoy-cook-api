@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const { expect } = require('chai');
 const jwt = require('jsonwebtoken');
 
 function makeUsersArray() {
@@ -233,6 +234,23 @@ function makeExpectedComment(users, comment) {
   };
 }
 
+function makeExpectedCommentByParentId(users, parentId, comments) {
+  const expctedComment = comments.find(comment => comment.parentcomment_id === parentId);
+  const commentUser = users.find(user => user.id === expctedComment.user_id);
+  return {
+    id: expctedComment.id,
+    content: expctedComment.content,
+    date_created: expctedComment.date_created.toISOString(),
+    recipe_id: expctedComment.recipe_id,
+    user: {
+      id: commentUser.id,
+      user_name: commentUser.user_name,
+      date_created: commentUser.date_created.toISOString(),
+      date_modified: commentUser.date_modified || null,
+    }
+  };
+}
+
 function makeExpectedRecipeComments(users, recipeId, comments) {
   const expectedComments = comments
     .filter(comment => comment.recipe_id === recipeId && comment.parentcomment_id == null);
@@ -400,4 +418,5 @@ module.exports = {
   makeExpectedCollection,
   makeExpectedSearchRecipes,
   makeExpectedComment,
+  makeExpectedCommentByParentId,
 };
