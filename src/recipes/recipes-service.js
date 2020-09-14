@@ -91,7 +91,7 @@ const RecipesService = {
         'comm.user_id',
         'usr.id',
       )
-      .groupBy('comm.id', 'usr.id')
+      .orderBy('comm.id')
   },
 
   serializeRecipe(recipe) {
