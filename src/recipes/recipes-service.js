@@ -45,6 +45,7 @@ const RecipesService = {
           'cate.id'
       )
       .groupBy('rec.id', 'usr.id','cate.id')
+      .where('comm.parentcomment_id', null)
   },
 
   getById(db, id) {
@@ -91,6 +92,7 @@ const RecipesService = {
         'comm.user_id',
         'usr.id',
       )
+      .orderBy('comm.id')
   },
 
   serializeRecipe(recipe) {

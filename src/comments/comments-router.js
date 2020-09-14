@@ -25,7 +25,8 @@ commentsRouter
           error: `Missing '${key}' in request body`
         });
     newComment.user_id = req.user.id;
-    
+    console.log(req.body.parentId)
+    newComment.parentcomment_id = req.body.parentId;
     CommentsService.insertComment(
       req.app.get('db'),
       newComment
