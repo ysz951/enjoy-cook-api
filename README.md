@@ -13,6 +13,13 @@ This is the back end for `Enjoy Cook`. The front end can be found at https://git
 ## Demo
 * [Live Demo](https://enjoy-cook-app.vercel.app/)
 
+### Demo user automatically log in
+* Click `Demo user login` button on `login` page.
+
+### Demo credentials 
+* `User name`: `test`
+* `Password`: `password`
+
 ## Screenshoots
 ### Home page: 
 ![image](https://github.com/ysz951/enjoy-cook-app/blob/master/demo_images/mobile_home.png)
