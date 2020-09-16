@@ -6,5 +6,6 @@ CREATE TABLE enjoycook_comments (
         REFERENCES enjoycook_recipes(id) ON DELETE CASCADE NOT NULL,
     user_id INTEGER
         REFERENCES enjoycook_users(id) ON DELETE CASCADE NOT NULL,
-    parentcomment_id INTEGER
+    parentcomment_id INTEGER,
+    sourcecomment_id INTEGER
 );
